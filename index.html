@@ -100,6 +100,29 @@
     color: #fff;
   }
 
+  .filter-select {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 28px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B6560' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-color: transparent;
+    transition: all .15s;
+  }
+  .filter-select:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-select.active { background-color: var(--accent); border-color: var(--accent); color: #fff; }
+
   /* ── LAYOUT PRINCIPAL ──────────────────── */
   .main {
     display: flex;
@@ -319,10 +342,11 @@
 </header>
 
 <div class="filters">
-  <button class="filter-btn active" onclick="filterCards('todos', this)">Todos</button>
+  <button class="filter-btn active" id="btn-todos" onclick="filterCards('todos', this)">Todos</button>
+  <select class="filter-select" id="segmento-select" onchange="filterBySelect(this)">
+    <option value="todos">Filtrar por segmento...</option>
+  </select>
 </div>
-  <button class="filter-btn" onclick="filterCards('alimentação', this)">🥖 Alimentação</button>
-  <button class="filter-btn" onclick="filterCards('cafeteria', this)">☕ Cafeteria</button>
 
 <div class="main">
   <aside class="sidebar">
@@ -333,7 +357,7 @@
 </div>
 
 <div class="cta-bar">
-  <button class="cta-btn" onclick="alert('Em breve: link para o formulário de cadastro!')">
+  <button class="cta-btn" onclick="alert('Acesse o formulário para cadastrar seu negócio:\n\nhttps://forms.office.com/r/54n7Z7F78V')">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
     Quero entrar no mapa
   </button>
@@ -341,27 +365,32 @@
 
 <script>
 const donos = [
-  { id:1, name:"Sagrado Boulangerie", tipo:"Alimentação", tipoTag:"alimentação", address:"Rua Dom Henrique Mourão, 158 · Santana · SP", lat:-23.4914867, lng:-46.632341, color:"#7B9E5A", initials:"SB", instagram:null, whatsapp:null, tags:["Alimentação","Santana","SP"] },
-  { id:2, name:"Hikari Collab", tipo:"Cafeteria", tipoTag:"cafeteria", address:"Av. Prefeito Fábio Prado, 58 · Jd. Vila Mariana · SP", lat:-23.5905049, lng:-46.6303366, color:"#D4500A", initials:"HC", instagram:"@hikaricollab", whatsapp:"11950295544", tags:["Cafeteria","Vila Mariana","SP"] },
-  { id:3, name:"H2 Incorporadora", tipo:"Imobiliário", tipoTag:"imobiliário", address:"Rua Maria Amélia da Silva, 153 · Campinas · SP", lat:-22.7782623, lng:-47.0913996, color:"#5A7B9E", initials:"H2", instagram:"@h2empreendimentos", whatsapp:"11999910990", tags:["Imobiliário","Campinas","SP"] },
-  { id:4, name:"Foquinha Vidros e Autopeças", tipo:"Autopeças", tipoTag:"autopeças", address:"Rua Itajaí, 288 · Centro · Criciúma · SC", lat:-28.679365, lng:-49.362927, color:"#8B5A2B", initials:"FV", instagram:"@foquinhavidros", whatsapp:"4834378808", tags:["Autopeças","Criciúma","SC"] },
-  { id:5, name:"Mesquita & Cia", tipo:"Imobiliário", tipoTag:"imobiliário", address:"Rua Princesa Isabel · Brooklin · SP", lat:-23.6179876, lng:-46.6788278, color:"#2C5F8A", initials:"MC", instagram:"@giovanamesquita85", whatsapp:"11975321520", tags:["Imobiliário","Financeiro","SP"] },
-  { id:6, name:"Queijaria Capriolês", tipo:"Alimentação", tipoTag:"alimentação", address:"Av. Antônio Pincinatto, 5001 · Jundiaí · SP", lat:-23.1990439, lng:-46.9673505, color:"#9E7B2B", initials:"QC", instagram:"@caprilcaprioles", whatsapp:"11942475678", tags:["Alimentação","Jundiaí","SP"] },
-  { id:7, name:"Use Flor", tipo:"Joias & Semijoias", tipoTag:"moda", address:"Estrada dos Três Rios, 90 · Freguesia · RJ", lat:-22.9399862, lng:-43.3426671, color:"#9E5A8B", initials:"UF", instagram:"@useflorjoias", whatsapp:"21996288402", tags:["Joias","Freguesia","RJ"] },
-  { id:8, name:"BATIK", tipo:"Moda & Calçados", tipoTag:"moda", address:"Rua Joaquim Floriano, 111 · Itaim Bibi · SP", lat:-23.5839107, lng:-46.6710974, color:"#7B4F2B", initials:"BT", instagram:"@lojabatik", whatsapp:"11981577822", tags:["Moda","Itaim Bibi","SP"] },
-  { id:9, name:"Dra. Renata Santiago", tipo:"Saúde", tipoTag:"saúde", address:"Rua Cincinato Braga, 340 · Bela Vista · SP", lat:-23.5677136, lng:-46.6464224, color:"#C94880", initials:"RS", instagram:"@dra.renatasantiago", whatsapp:"11913132504", tags:["Saúde","Bela Vista","SP"] },
-  { id:10, name:"Lê Tatty Buffet", tipo:"Eventos", tipoTag:"eventos", address:"Engenho de Dentro · Rio de Janeiro · RJ", lat:-22.893915, lng:-43.295469, color:"#5A8B7B", initials:"LT", instagram:"@letattybuffet", whatsapp:"21970198118", tags:["Eventos","RJ"] },
-  { id:11, name:"Alfagates", tipo:"Tecnologia", tipoTag:"tecnologia", address:"Rua Afrânio de Melo Franco, 333 · Petrópolis · RJ", lat:-22.5323876, lng:-43.2091467, color:"#3A7B9E", initials:"AG", instagram:"@alfagates_br", whatsapp:"21991351072", tags:["Tecnologia","Petrópolis","RJ"] },
-  { id:12, name:"Canteiro AEC", tipo:"Gestão de Obras", tipoTag:"engenharia", address:"Rua Cristóvão Nunes Pires, 110 · Florianópolis · SC", lat:-27.5946216, lng:-48.5584379, color:"#4A7B5A", initials:"CA", instagram:"@canteiroaec", whatsapp:"48984199862", tags:["Engenharia","Florianópolis","SC"] },
-  { id:13, name:"Noova", tipo:"Suplementos", tipoTag:"saúde", address:"Goiânia · GO", lat:-16.6868491, lng:-49.2707899, color:"#7B5A9E", initials:"NV", instagram:"@mundonoova", whatsapp:"62992833899", tags:["Suplementos","Goiânia","GO"] },
-  { id:14, name:"Abad Terrenos", tipo:"Imobiliário", tipoTag:"imobiliário", address:"Rua Mourato Coelho, 325 · Pinheiros · SP", lat:-23.5646554, lng:-46.6869195, color:"#5A6B8A", initials:"AT", instagram:null, whatsapp:null, tags:["Imobiliário","Pinheiros","SP"] },
-  { id:15, name:"Castanha da Família", tipo:"Alimentação", tipoTag:"alimentação", address:"Rua Álvaro Alvim, 27 · Centro · RJ", lat:-22.9112272, lng:-43.1764122, color:"#C97B2B", initials:"CF", instagram:"@castanhadafamilia", whatsapp:"21977947373", tags:["Alimentação","Centro","RJ"] },
-  { id:16, name:"Programa Talento & Profissão", tipo:"Educação", tipoTag:"educação", address:"Rua Antônio Arthur Braga, 370 · Barra da Tijuca · RJ", lat:-22.9841382, lng:-43.384972, color:"#5A9E7B", initials:"TP", instagram:"@andre.talento", whatsapp:"21996218198", tags:["Educação","Barra da Tijuca","RJ"] },
-  { id:17, name:"TechMag", tipo:"Tecnologia", tipoTag:"tecnologia", address:"Rua Manoela da Nóbrega, 211 · Paraíso · SP", lat:-23.5697556, lng:-46.6493939, color:"#2B5A8B", initials:"TM", instagram:"@techmag_autenticacao_biometria", whatsapp:"11963933662", tags:["Tecnologia","Paraíso","SP"] },
-  { id:18, name:"Armazém 14", tipo:"Alimentação Saudável", tipoTag:"alimentação", address:"Av. Ataulfo de Paiva, 1100 · Leblon · RJ", lat:-22.9849701, lng:-43.2262491, color:"#5A9E5A", initials:"A14", instagram:"@armazem14produtosnaturais", whatsapp:"21998447359", tags:["Alimentação","Leblon","RJ"] },
-  { id:19, name:"Efeito Consciência", tipo:"Consultoria", tipoTag:"consultoria", address:"Alphaville · SP", lat:-23.4768588, lng:-46.8662018, color:"#8B3A7B", initials:"EC", instagram:"@efeitoconsciencia", whatsapp:"32984259425", tags:["Consultoria","Alphaville","SP"] },
-  { id:20, name:"Aline Sena Barcellos Advogada", tipo:"Advocacia", tipoTag:"jurídico", address:"Av. Assis Chateaubriand, 95 · Setor Sul · Goiânia · GO", lat:-16.6836135, lng:-49.2600257, color:"#7B2B5A", initials:"AS", instagram:"@adv.alinesenabarcellos", whatsapp:"62981313300", tags:["Advocacia","Goiânia","GO"] },
-  { id:21, name:"Gola Golê", tipo:"Moda Infantil", tipoTag:"moda", address:"Rua Contria, 1133 · Alto Barroca · Belo Horizonte · MG", lat:-19.9354493, lng:-43.9683408, color:"#E85D7A", initials:"GG", instagram:"@golagolekids", whatsapp:"31986444344", tags:["Moda","Belo Horizonte","MG"] }
+  { id:1,  name:"Sagrado Boulangerie",           tipo:"Alimentação",           tipoTag:"alimentação",  address:"Rua Dom Henrique Mourão, 158 · Santana · SP",              lat:-23.4914867,  lng:-46.6323410,  color:"#7B9E5A", initials:"SB",  instagram:null,                              whatsapp:null,          tags:["Alimentação","Santana","SP"] },
+  { id:2,  name:"Hikari Collab",                 tipo:"Cafeteria",             tipoTag:"cafeteria",    address:"Av. Prefeito Fábio Prado, 58 · Jd. Vila Mariana · SP",    lat:-23.5905049,  lng:-46.6303366,  color:"#D4500A", initials:"HC",  instagram:"@hikaricollab",                   whatsapp:"11950295544", tags:["Cafeteria","Vila Mariana","SP"] },
+  { id:3,  name:"H2 Incorporadora",              tipo:"Imobiliário",           tipoTag:"imobiliário",  address:"Rua Maria Amélia da Silva, 153 · Campinas · SP",           lat:-22.7782623,  lng:-47.0913996,  color:"#5A7B9E", initials:"H2",  instagram:"@h2empreendimentos",              whatsapp:"11999910990", tags:["Imobiliário","Campinas","SP"] },
+  { id:4,  name:"Foquinha Vidros e Autopeças",   tipo:"Autopeças",             tipoTag:"autopeças",    address:"Rua Itajaí, 288 · Centro · Criciúma · SC",                lat:-28.6793650,  lng:-49.3629270,  color:"#8B5A2B", initials:"FV",  instagram:"@foquinhavidros",                 whatsapp:"4834378808",  tags:["Autopeças","Criciúma","SC"] },
+  { id:5,  name:"Mesquita & Cia",                tipo:"Imobiliário",           tipoTag:"imobiliário",  address:"Rua Princesa Isabel · Brooklin · SP",                      lat:-23.6179876,  lng:-46.6788278,  color:"#2C5F8A", initials:"MC",  instagram:"@giovanamesquita85",              whatsapp:"11975321520", tags:["Imobiliário","Brooklin","SP"] },
+  { id:6,  name:"Queijaria Capriolês",           tipo:"Alimentação",           tipoTag:"alimentação",  address:"Av. Antônio Pincinatto, 5001 · Jundiaí · SP",              lat:-23.1990439,  lng:-46.9673505,  color:"#9E7B2B", initials:"QC",  instagram:"@caprilcaprioles",                whatsapp:"11942475678", tags:["Alimentação","Jundiaí","SP"] },
+  { id:7,  name:"Use Flor",                      tipo:"Joias & Semijoias",     tipoTag:"moda",         address:"Estrada dos Três Rios, 90 · Freguesia · RJ",               lat:-22.9399862,  lng:-43.3426671,  color:"#9E5A8B", initials:"UF",  instagram:"@useflorjoias",                   whatsapp:"21996288402", tags:["Joias","Freguesia","RJ"] },
+  { id:8,  name:"BATIK",                         tipo:"Moda & Calçados",       tipoTag:"moda",         address:"Rua Joaquim Floriano, 111 · Itaim Bibi · SP",              lat:-23.5839107,  lng:-46.6710974,  color:"#7B4F2B", initials:"BT",  instagram:"@lojabatik",                      whatsapp:"11981577822", tags:["Moda","Itaim Bibi","SP"] },
+  { id:9,  name:"Dra. Renata Santiago",          tipo:"Saúde",                 tipoTag:"saúde",        address:"Rua Cincinato Braga, 340 · Bela Vista · SP",               lat:-23.5677136,  lng:-46.6464224,  color:"#C94880", initials:"RS",  instagram:"@dra.renatasantiago",             whatsapp:"11913132504", tags:["Saúde","Bela Vista","SP"] },
+  { id:10, name:"Lê Tatty Buffet",               tipo:"Eventos",               tipoTag:"eventos",      address:"Engenho de Dentro · Rio de Janeiro · RJ",                  lat:-22.8939154,  lng:-43.2954699,  color:"#5A8B7B", initials:"LT",  instagram:"@letattybuffet",                  whatsapp:"21970198118", tags:["Eventos","RJ"] },
+  { id:11, name:"Alfagates",                     tipo:"Tecnologia",            tipoTag:"tecnologia",   address:"Rua Afrânio de Melo Franco, 333 · Petrópolis · RJ",        lat:-22.5323876,  lng:-43.2091467,  color:"#3A7B9E", initials:"AG",  instagram:"@alfagates_br",                   whatsapp:"21991351072", tags:["Tecnologia","Petrópolis","RJ"] },
+  { id:12, name:"Canteiro AEC",                  tipo:"Gestão de Obras",       tipoTag:"engenharia",   address:"Rua Cristóvão Nunes Pires, 110 · Florianópolis · SC",      lat:-27.5946216,  lng:-48.5584379,  color:"#4A7B5A", initials:"CA",  instagram:"@canteiroaec",                    whatsapp:"48984199862", tags:["Engenharia","Florianópolis","SC"] },
+  { id:13, name:"Noova",                         tipo:"Suplementos",           tipoTag:"saúde",        address:"Goiânia · GO",                                             lat:-16.6868491,  lng:-49.2707899,  color:"#7B5A9E", initials:"NV",  instagram:"@mundonoova",                     whatsapp:"62992833899", tags:["Suplementos","Goiânia","GO"] },
+  { id:14, name:"Abad Terrenos",                 tipo:"Imobiliário",           tipoTag:"imobiliário",  address:"Rua Mourato Coelho, 325 · Pinheiros · SP",                 lat:-23.5646554,  lng:-46.6869195,  color:"#5A6B8A", initials:"AT",  instagram:null,                              whatsapp:null,          tags:["Imobiliário","Pinheiros","SP"] },
+  { id:15, name:"Castanha da Família",           tipo:"Alimentação",           tipoTag:"alimentação",  address:"Rua Álvaro Alvim, 27 · Centro · RJ",                       lat:-22.9112272,  lng:-43.1764122,  color:"#C97B2B", initials:"CF",  instagram:"@castanhadafamilia",              whatsapp:"21977947373", tags:["Alimentação","Centro","RJ"] },
+  { id:16, name:"Programa Talento & Profissão",  tipo:"Educação",              tipoTag:"educação",     address:"Rua Antônio Arthur Braga, 370 · Barra da Tijuca · RJ",     lat:-22.9841382,  lng:-43.3849720,  color:"#5A9E7B", initials:"TP",  instagram:"@andre.talento",                  whatsapp:"21996218198", tags:["Educação","Barra da Tijuca","RJ"] },
+  { id:17, name:"TechMag",                       tipo:"Tecnologia",            tipoTag:"tecnologia",   address:"Rua Manoela da Nóbrega, 211 · Paraíso · SP",               lat:-23.5697556,  lng:-46.6493939,  color:"#2B5A8B", initials:"TM",  instagram:"@techmag_autenticacao_biometria", whatsapp:"11963933662", tags:["Tecnologia","Paraíso","SP"] },
+  { id:18, name:"Armazém 14",                    tipo:"Alimentação Saudável",  tipoTag:"alimentação",  address:"Av. Ataulfo de Paiva, 1100 · Leblon · RJ",                 lat:-22.9849701,  lng:-43.2262491,  color:"#5A9E5A", initials:"A14", instagram:"@armazem14produtosnaturais",      whatsapp:"21998447359", tags:["Alimentação","Leblon","RJ"] },
+  { id:19, name:"Efeito Consciência",            tipo:"Consultoria",           tipoTag:"consultoria",  address:"Alphaville · SP",                                          lat:-23.4768588,  lng:-46.8662018,  color:"#8B3A7B", initials:"EC",  instagram:"@efeitoconsciencia",              whatsapp:"32984259425", tags:["Consultoria","Alphaville","SP"] },
+  { id:20, name:"Aline Sena Barcellos Advogada", tipo:"Advocacia",             tipoTag:"jurídico",     address:"Av. Assis Chateaubriand, 95 · Setor Sul · Goiânia · GO",   lat:-16.6836135,  lng:-49.2600257,  color:"#7B2B5A", initials:"AS",  instagram:"@adv.alinesenabarcellos",         whatsapp:"62981313300", tags:["Advocacia","Goiânia","GO"] },
+  { id:21, name:"Gola Golê",                     tipo:"Moda Infantil",         tipoTag:"moda",         address:"Rua Contria, 1133 · Alto Barroca · Belo Horizonte · MG",   lat:-19.9354493,  lng:-43.9683408,  color:"#E85D7A", initials:"GG",  instagram:"@golagolekids",                   whatsapp:"31986444344", tags:["Moda","Belo Horizonte","MG"] },
+  { id:22, name:"Lili Picolé",                   tipo:"Moda Infantil",         tipoTag:"moda",         address:"Av. Giovanni Gronchi, 4855 · Vila Andrade · SP",            lat:-23.6220602,  lng:-46.7333247,  color:"#E87B9E", initials:"LP",  instagram:"@lili.picole",                    whatsapp:"11926624023", tags:["Moda","Vila Andrade","SP"] },
+  { id:23, name:"Wanderlust Viagens",            tipo:"Turismo & Milhas",      tipoTag:"turismo",      address:"Rua Mário Covas Jr, 335 · Barra da Tijuca · RJ",           lat:-23.0051730,  lng:-43.3288352,  color:"#2B7B9E", initials:"WV",  instagram:"@gestordemilhasvip",              whatsapp:"21976696269", tags:["Turismo","Barra da Tijuca","RJ"] },
+  { id:24, name:"Venit Marketing",               tipo:"Marketing Digital",     tipoTag:"marketing",    address:"Juiz de Fora · MG",                                        lat:-21.7597391,  lng:-43.3475695,  color:"#5A3A9E", initials:"VM",  instagram:"@venit.marketing",                whatsapp:"32998538748", tags:["Marketing","Juiz de Fora","MG"] },
+  { id:25, name:"Anita Portugal Cerâmica",       tipo:"Artesanato & Design",   tipoTag:"artesanato",   address:"Rua Frei Ernesto Emmendoerfer, 250 · Bom Retiro · Blumenau · SC", lat:-26.9263449, lng:-49.0727624, color:"#C97B5A", initials:"AP",  instagram:"@anitaportugal",                  whatsapp:"47999320796", tags:["Artesanato","Blumenau","SC"] },
+  { id:26, name:"Multi Turismo",                 tipo:"Turismo & Viagens",     tipoTag:"turismo",      address:"Estrada Padre Roser, 330 · Vila da Penha · RJ",            lat:-22.8409866,  lng:-43.3162021,  color:"#3A9E8B", initials:"MT",  instagram:"@multiturismorj",                 whatsapp:"2123422164",  tags:["Turismo","Vila da Penha","RJ"] }
 ];
 
 // ── MAP ────────────────────────────────────────
@@ -471,7 +500,49 @@ function filterCards(tag, btn) {
   renderCards(filtered);
 }
 
+// Popular dropdown com segmentos únicos dos donos cadastrados
+function populateSelect() {
+  const select = document.getElementById('segmento-select');
+  const segmentos = [...new Set(donos.map(d => d.tipo))].sort();
+  segmentos.forEach(seg => {
+    const opt = document.createElement('option');
+    opt.value = donos.find(d => d.tipo === seg).tipoTag;
+    opt.textContent = seg;
+    select.appendChild(opt);
+  });
+}
+
+function filterBySelect(select) {
+  const val = select.value;
+  // Resetar botão Todos
+  document.getElementById('btn-todos').classList.remove('active');
+  if (val === 'todos') {
+    document.getElementById('btn-todos').classList.add('active');
+    select.classList.remove('active');
+    select.value = 'todos';
+  } else {
+    select.classList.add('active');
+  }
+  const filtered = val === 'todos' ? donos : donos.filter(d => d.tipoTag === val);
+  donos.forEach(d => {
+    const m = markers[d.id];
+    if (filtered.find(f => f.id === d.id)) { if (!map.hasLayer(m)) map.addLayer(m); }
+    else { if (map.hasLayer(m)) map.removeLayer(m); }
+  });
+  renderCards(filtered);
+}
+
+// Sobrescrever filterCards para sincronizar com select
+const _filterCards = filterCards;
+window.filterCards = function(tag, btn) {
+  _filterCards(tag, btn);
+  const select = document.getElementById('segmento-select');
+  select.value = 'todos';
+  select.classList.remove('active');
+};
+
 // init
+populateSelect();
 renderCards(donos);
 </script>
 </body>
