@@ -320,12 +320,8 @@
 
 <div class="filters">
   <button class="filter-btn active" onclick="filterCards('todos', this)">Todos</button>
-  <button class="filter-btn" onclick="filterCards('café', this)">☕ Café & Food</button>
-  <button class="filter-btn" onclick="filterCards('alimentação', this)">🥖 Alimentação</button>
-  <button class="filter-btn" onclick="filterCards('engenharia', this)">🏗️ Engenharia</button>
-  <button class="filter-btn" onclick="filterCards('espaço', this)">🤝 Espaço Collab</button>
-  <button class="filter-btn" onclick="filterCards('residência', this)">🏠 Residência</button>
 </div>
+  <button class="filter-btn" onclick="filterCards('alimentação', this)">🥖 Alimentação</button>
 
 <div class="main">
   <aside class="sidebar">
@@ -345,66 +341,6 @@
 <script>
 const donos = [
   {
-    id: 1,
-    name: "Casa",
-    tipo: "Residência",
-    tipoTag: "residência",
-    descricao: "Base do dono",
-    address: "Rua Humberto I, 928 · Vila Mariana",
-    lat: -23.587937,
-    lng: -46.6403119,
-    color: "#6B6560",
-    initials: "C",
-    instagram: null,
-    whatsapp: null,
-    tags: ["Residência", "Vila Mariana"]
-  },
-  {
-    id: 2,
-    name: "HIKA.FE",
-    tipo: "Café & Food",
-    tipoTag: "café",
-    descricao: "Café e espaço colaborativo",
-    address: "Rua Madre Cabrini, 200 · Vila Mariana",
-    lat: -23.5905191,
-    lng: -46.6368321,
-    color: "#D4500A",
-    initials: "HF",
-    instagram: "@hikaricollab",
-    whatsapp: "+55 11 4327-7871",
-    tags: ["Café", "Vila Mariana", "Collab"]
-  },
-  {
-    id: 3,
-    name: "Hikari Collab",
-    tipo: "Espaço Collab",
-    tipoTag: "espaço",
-    descricao: "Cafeteria e loja colaborativa",
-    address: "Av. Prefeito Fábio Prado, 58 · Jd. Vila Mariana",
-    lat: -23.5905049,
-    lng: -46.6303366,
-    color: "#C94800",
-    initials: "HC",
-    instagram: "@hikaricollab",
-    whatsapp: "+55 11 95029-5544",
-    tags: ["Café", "Jardim Vila Mariana", "Collab"]
-  },
-  {
-    id: 4,
-    name: "C&M Projetos",
-    tipo: "Engenharia",
-    tipoTag: "engenharia",
-    descricao: "Gestão de projetos de engenharia",
-    address: "Rua Major Sertório, 332 · Vila Buarque",
-    lat: -23.5452579,
-    lng: -46.6473589,
-    color: "#2C5F8A",
-    initials: "CM",
-    instagram: null,
-    whatsapp: null,
-    tags: ["Engenharia", "Vila Buarque", "Projetos"]
-  },
-  {
     id: 5,
     name: "Sagrado Boulangerie",
     tipo: "Alimentação",
@@ -422,7 +358,7 @@ const donos = [
 ];
 
 // ── MAP ────────────────────────────────────────
-const map = L.map('map', { zoomControl: true }).setView([-23.572, -46.638], 13);
+const map = L.map('map', { zoomControl: true }).setView([-23.4914867, -46.632341], 15);
 
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
   attribution: '© OpenStreetMap © CARTO',
