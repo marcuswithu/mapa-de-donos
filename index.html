@@ -322,6 +322,7 @@
   <button class="filter-btn active" onclick="filterCards('todos', this)">Todos</button>
 </div>
   <button class="filter-btn" onclick="filterCards('alimentação', this)">🥖 Alimentação</button>
+  <button class="filter-btn" onclick="filterCards('cafeteria', this)">☕ Cafeteria</button>
 
 <div class="main">
   <aside class="sidebar">
@@ -341,7 +342,7 @@
 <script>
 const donos = [
   {
-    id: 5,
+    id: 1,
     name: "Sagrado Boulangerie",
     tipo: "Alimentação",
     tipoTag: "alimentação",
@@ -354,11 +355,26 @@ const donos = [
     instagram: null,
     whatsapp: null,
     tags: ["Alimentação", "Santana", "Padaria"]
+  },
+  {
+    id: 2,
+    name: "Hikari Collab",
+    tipo: "Cafeteria",
+    tipoTag: "cafeteria",
+    descricao: "Cafeteria com cafés especiais, matcha, doces e salgados",
+    address: "Av. Prefeito Fábio Prado, 58 · Jardim Vila Mariana",
+    lat: -23.5905049,
+    lng: -46.6303366,
+    color: "#D4500A",
+    initials: "HC",
+    instagram: "@hikaricollab",
+    whatsapp: "11950295544",
+    tags: ["Cafeteria", "Jardim Vila Mariana", "Matcha"]
   }
 ];
 
 // ── MAP ────────────────────────────────────────
-const map = L.map('map', { zoomControl: true }).setView([-23.4914867, -46.632341], 15);
+const map = L.map('map', { zoomControl: true }).setView([-23.54, -46.632], 12);
 
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
   attribution: '© OpenStreetMap © CARTO',
