@@ -24,9 +24,10 @@
     font-family: 'Inter', sans-serif;
     background: var(--paper);
     color: var(--ink);
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
   }
 
   /* ── HEADER ─────────────────────────────── */
@@ -128,7 +129,7 @@
     display: flex;
     flex: 1;
     min-height: 0;
-    height: calc(100vh - 120px);
+    overflow: hidden;
   }
 
   /* ── SIDEBAR ─────────────────────────────── */
@@ -138,6 +139,7 @@
     overflow-y: auto;
     border-right: 1px solid var(--border);
     background: var(--paper);
+    height: 100%;
   }
 
   .sidebar-header {
@@ -380,42 +382,330 @@
 
 <script>
 const donos = [
-  { id:1,  name:"Sagrado Boulangerie",           tipo:"Alimentação",           tipoTag:"alimentação",  address:"Rua Dom Henrique Mourão, 158 · Santana · SP",                   lat:-23.4914867, lng:-46.6323410, color:"#7B9E5A", initials:"SB",  instagram:null,                              whatsapp:null,          descCurta:"Somos parte de uma franquia do segmento Padaria semi artesanal.", descLonga:"" },
-  { id:2,  name:"Hikari Collab",                 tipo:"Cafeteria",             tipoTag:"cafeteria",    address:"Av. Prefeito Fábio Prado, 58 · Jd. Vila Mariana · SP",         lat:-23.5905049, lng:-46.6303366, color:"#D4500A", initials:"HC",  instagram:"@hikaricollab",                   whatsapp:"11950295544", descCurta:"Cafeteria com cafés especiais, matcha, doces e salgados.", descLonga:"A Hikari surgiu de uma proposta em combinar café, loja colaborativa e espaço para workshop." },
-  { id:3,  name:"H2 Incorporadora",              tipo:"Imobiliário",           tipoTag:"imobiliário",  address:"Rua Maria Amélia da Silva, 153 · Campinas · SP",                lat:-22.7782623, lng:-47.0913996, color:"#5A7B9E", initials:"H2",  instagram:"@h2empreendimentos",              whatsapp:"11999910990", descCurta:"Viabilizamos empreendimentos unifamiliares de forma alavancada.", descLonga:"Iniciamos a transição de carreira em 2024. Meta: VGV de 10 milhões até 2027." },
-  { id:4,  name:"Foquinha Vidros e Autopeças",   tipo:"Autopeças",             tipoTag:"autopeças",    address:"Rua Itajaí, 288 · Centro · Criciúma · SC",                     lat:-28.6793650, lng:-49.3629270, color:"#8B5A2B", initials:"FV",  instagram:"@foquinhavidros",                 whatsapp:"4834378808",  descCurta:"Rede especializada em vidros automotivos.", descLonga:"" },
-  { id:5,  name:"Mesquita & Cia",                tipo:"Imobiliário",           tipoTag:"imobiliário",  address:"Rua Princesa Isabel · Brooklin · SP",                          lat:-23.6179876, lng:-46.6788278, color:"#2C5F8A", initials:"MC",  instagram:"@giovanamesquita85",              whatsapp:"11975321520", descCurta:"Inteligência financeira para realizar o sonho da casa própria.", descLonga:"Mais de 15 anos de experiência nos setores imobiliário, financeiro e de incorporação." },
-  { id:6,  name:"Queijaria Capriolês",           tipo:"Alimentação",           tipoTag:"alimentação",  address:"Av. Antônio Pincinatto, 5001 · Jundiaí · SP",                  lat:-23.1990439, lng:-46.9673505, color:"#9E7B2B", initials:"QC",  instagram:"@caprilcaprioles",                whatsapp:"11942475678", descCurta:"Queijos artesanais de cabra e vaca, ciclo 100% fechado.", descLonga:"Empresa familiar com mais de 35 anos de história. Criação, pecuária e produção agrícola próprias." },
-  { id:7,  name:"Use Flor",                      tipo:"Joias & Semijoias",     tipoTag:"moda",         address:"Estrada dos Três Rios, 90 · Freguesia · RJ",                   lat:-22.9399862, lng:-43.3426671, color:"#9E5A8B", initials:"UF",  instagram:"@useflorjoias",                   whatsapp:"21996288402", descCurta:"Joias e semijoias autorais inspiradas na natureza brasileira.", descLonga:"Empresa familiar que une qualidade, design e significado em coleções exclusivas." },
-  { id:8,  name:"BATIK",                         tipo:"Moda & Calçados",       tipoTag:"moda",         address:"Rua Joaquim Floriano, 111 · Itaim Bibi · SP",                  lat:-23.5839107, lng:-46.6710974, color:"#7B4F2B", initials:"BT",  instagram:"@lojabatik",                      whatsapp:"11981577822", descCurta:"Sapatos artesanais e autorais feitos à mão em couro legítimo.", descLonga:"10 anos unindo repertório criativo e sensibilidade estética. Formada em Publicidade com pós em Cool Hunting em Barcelona." },
-  { id:9,  name:"Dra. Renata Santiago",          tipo:"Saúde",                 tipoTag:"saúde",        address:"Rua Cincinato Braga, 340 · Bela Vista · SP",                   lat:-23.5677136, lng:-46.6464224, color:"#C94880", initials:"RS",  instagram:"@dra.renatasantiago",             whatsapp:"11913132504", descCurta:"Ginecologista focada em saúde da mulher 40+, menopausa e reposição hormonal.", descLonga:"Consultório criado para cuidar da mulher de forma integral, unindo ciência, escuta e acolhimento." },
-  { id:10, name:"Lê Tatty Buffet",               tipo:"Eventos",               tipoTag:"eventos",      address:"Engenho de Dentro · Rio de Janeiro · RJ",                     lat:-22.8939154, lng:-43.2954699, color:"#5A8B7B", initials:"LT",  instagram:"@letattybuffet",                  whatsapp:"21970198118", descCurta:"Gestão de buffet e eventos, do planejamento à execução.", descLonga:"Especializada em serviços de alimentação para eventos, de confraternizações a corporativos." },
-  { id:11, name:"Alfagates",                     tipo:"Tecnologia",            tipoTag:"tecnologia",   address:"Rua Afrânio de Melo Franco, 333 · Petrópolis · RJ",            lat:-22.5323876, lng:-43.2091467, color:"#3A7B9E", initials:"AG",  instagram:"@alfagates_br",                   whatsapp:"21991351072", descCurta:"Integradora de serviços e soluções de TI.", descLonga:"Após 13 anos trabalhando pelos outros, fundou a própria empresa para simplificar o uso de tecnologia." },
-  { id:12, name:"Canteiro AEC",                  tipo:"Gestão de Obras",       tipoTag:"engenharia",   address:"Rua Cristóvão Nunes Pires, 110 · Florianópolis · SC",         lat:-27.5946216, lng:-48.5584379, color:"#4A7B5A", initials:"CA",  instagram:"@canteiroaec",                    whatsapp:"48984199862", descCurta:"Reduzimos custo e imprevisibilidade em obras de empreendimentos imobiliários.", descLonga:"Mais de 10 anos em gestão e coordenação de projetos em BIM. Atuação nacional em todos os nichos." },
-  { id:13, name:"Noova",                         tipo:"Suplementos",           tipoTag:"saúde",        address:"Goiânia · GO",                                                lat:-16.6868491, lng:-49.2707899, color:"#7B5A9E", initials:"NV",  instagram:"@mundonoova",                     whatsapp:"62992833899", descCurta:"Suplementos focados em energia, foco, bem-estar e qualidade do sono.", descLonga:"Noova Boost (energia sem cafeína) e Noova Zen (relaxamento e sono). Fundada por mãe empreendedora." },
-  { id:14, name:"Abad Terrenos",                 tipo:"Imobiliário",           tipoTag:"imobiliário",  address:"Rua Mourato Coelho, 325 · Pinheiros · SP",                     lat:-23.5646554, lng:-46.6869195, color:"#5A6B8A", initials:"AT",  instagram:null,                              whatsapp:null,          descCurta:"Intermediação de terrenos para incorporação de edifícios.", descLonga:"19 anos formando e negociando terrenos, atendendo incorporadoras." },
-  { id:15, name:"Castanha da Família",           tipo:"Alimentação",           tipoTag:"alimentação",  address:"Rua Álvaro Alvim, 27 · Centro · RJ",                          lat:-22.9112272, lng:-43.1764122, color:"#C97B2B", initials:"CF",  instagram:"@castanhadafamilia",              whatsapp:"21977947373", descCurta:"Castanha de caju W1 direto da fazenda, para consumo, presentes e corporativo.", descLonga:"5 anos atendendo consumidor final, lojas e empresas com kits corporativos personalizados." },
-  { id:16, name:"Programa Talento & Profissão",  tipo:"Educação",              tipoTag:"educação",     address:"Rua Antônio Arthur Braga, 370 · Barra da Tijuca · RJ",         lat:-22.9841382, lng:-43.3849720, color:"#5A9E7B", initials:"TP",  instagram:"@andre.talento",                  whatsapp:"21996218198", descCurta:"Ajudo adolescentes do ensino médio a escolherem suas carreiras.", descLonga:"25 anos ajudando adolescentes. Atende alunos de todo o Brasil e exterior." },
-  { id:17, name:"TechMag",                       tipo:"Tecnologia",            tipoTag:"tecnologia",   address:"Rua Manoela da Nóbrega, 211 · Paraíso · SP",                   lat:-23.5697556, lng:-46.6493939, color:"#2B5A8B", initials:"TM",  instagram:"@techmag_autenticacao_biometria", whatsapp:"11963933662", descCurta:"Biometria, autenticação digital e identidade para empresas.", descLonga:"10+ anos em segurança digital: reconhecimento facial, biometria digital e prevenção a fraudes." },
-  { id:18, name:"Armazém 14",                    tipo:"Alimentação Saudável",  tipoTag:"alimentação",  address:"Av. Ataulfo de Paiva, 1100 · Leblon · RJ",                    lat:-22.9849701, lng:-43.2262491, color:"#5A9E5A", initials:"A14", instagram:"@armazem14produtosnaturais",      whatsapp:"21998447359", descCurta:"Mercearia saudável: orgânicos, sem glúten, sem leite, sem açúcar e suplementos.", descLonga:"11 anos no Leblon, 5.500 itens. Fundada da necessidade própria de quem descobriu alergia ao glúten." },
-  { id:19, name:"Efeito Consciência",            tipo:"Consultoria",           tipoTag:"consultoria",  address:"Alphaville · SP",                                             lat:-23.4768588, lng:-46.8662018, color:"#8B3A7B", initials:"EC",  instagram:"@efeitoconsciencia",              whatsapp:"32984259425", descCurta:"Parceira estratégica de empresas em crescimento que precisam crescer organizadamente.", descLonga:"EC Lab (diagnóstico profundo) e GE 360 (gestor estratégico a distância mensal)." },
-  { id:20, name:"Aline Sena Barcellos Advogada", tipo:"Advocacia",             tipoTag:"jurídico",     address:"Av. Assis Chateaubriand, 95 · Setor Sul · Goiânia · GO",       lat:-16.6836135, lng:-49.2600257, color:"#7B2B5A", initials:"AS",  instagram:"@adv.alinesenabarcellos",         whatsapp:"62981313300", descCurta:"Advogada em Direito Empresarial com foco em Moda e Influência Digital.", descLonga:"Mais de 20 anos de trajetória. Iniciando carreira solo após anos no escritório da família." },
-  { id:21, name:"Gola Golê",                     tipo:"Moda Infantil",         tipoTag:"moda",         address:"Rua Contria, 1133 · Alto Barroca · Belo Horizonte · MG",       lat:-19.9354493, lng:-43.9683408, color:"#E85D7A", initials:"GG",  instagram:"@golagolekids",                   whatsapp:"31986444344", descCurta:"Vestuário infantil: estética europeia com ziriguidum brasileiro.", descLonga:"Lançamento em agosto/2026. E-commerce com experiências físicas em BH." },
-  { id:22, name:"Lili Picolé",                   tipo:"Moda Infantil",         tipoTag:"moda",         address:"Av. Giovanni Gronchi, 4855 · Vila Andrade · SP",               lat:-23.6220602, lng:-46.7333247, color:"#E87B9E", initials:"LP",  instagram:"@lili.picole",                    whatsapp:"11926624023", descCurta:"E-commerce de moda infantil: roupas confortáveis, alegres e práticas.", descLonga:"Nasceu do desejo de tornar a compra de roupas infantis mais leve e acolhedora para as famílias." },
-  { id:23, name:"Wanderlust Viagens",            tipo:"Turismo & Milhas",      tipoTag:"turismo",      address:"Rua Mário Covas Jr, 335 · Barra da Tijuca · RJ",              lat:-23.0051730, lng:-43.3288352, color:"#2B7B9E", initials:"WV",  instagram:"@gestordemilhasvip",              whatsapp:"21976696269", descCurta:"Viagens mais baratas com gestão de milhas e agência acoplada.", descLonga:"Fundada por oficial da reserva da Marinha apaixonado por viagens." },
-  { id:24, name:"Venit Marketing",               tipo:"Marketing Digital",     tipoTag:"marketing",    address:"Juiz de Fora · MG",                                           lat:-21.7597391, lng:-43.3475695, color:"#5A3A9E", initials:"VM",  instagram:"@venit.marketing",                whatsapp:"32998538748", descCurta:"Agência que une estratégia, dados e criatividade para gerar crescimento real.", descLonga:"8+ anos no mercado digital, Google Partner e Meta Business Partner." },
-  { id:25, name:"Anita Portugal Cerâmica",       tipo:"Artesanato & Design",   tipoTag:"artesanato",   address:"Rua Frei Ernesto Emmendoerfer, 250 · Blumenau · SC",           lat:-26.9263449, lng:-49.0727624, color:"#C97B5A", initials:"AP",  instagram:"@anitaportugal",                  whatsapp:"47999320796", descCurta:"Peças de luxo em cerâmica com design autoral e acabamento refinado.", descLonga:"Servidora pública e advogada que encontrou na cerâmica uma forma de expressão." },
-  { id:26, name:"Multi Turismo",                 tipo:"Turismo & Viagens",     tipoTag:"turismo",      address:"Estrada Padre Roser, 330 · Vila da Penha · RJ",               lat:-22.8409866, lng:-43.3162021, color:"#3A9E8B", initials:"MT",  instagram:"@multiturismorj",                 whatsapp:"2123422164",  descCurta:"Agência de turismo especializada em viagens corporativas.", descLonga:"Profissional com vivência internacional e gestão completa de viagens corporativas e lazer." },
-  { id:28, name:"Dayube Contabilidade",          tipo:"Contabilidade",         tipoTag:"jurídico",     address:"Av. Embaixador Abelardo Bueno, 1 · Barra da Tijuca · RJ",     lat:-22.9743555, lng:-43.3654006, color:"#4A5A7B", initials:"DC",  instagram:"@dayube_contabilidade",           whatsapp:"21977171279", descCurta:"Assessoria contábil, tributária e trabalhista com quase 30 anos de mercado.", descLonga:"Atende empresas de saúde, advogados, engenheiros e pessoas físicas com IRPF." },
-  { id:29, name:"DalPet",                        tipo:"Pet",                   tipoTag:"pet",          address:"Av. Ministro Victor Konder, 188 · Centro · Itajaí · SC",       lat:-26.9089030, lng:-48.6543490, color:"#7B9E2B", initials:"DP",  instagram:"@dalpet.oficial",                 whatsapp:null,          descCurta:"Ração premium e super premium para cães e gatos, com exportação.", descLonga:"20+ anos no mercado. Empresa familiar buscando profissionalização e reconhecimento da marca." },
-  { id:30, name:"Made in Beagá",                 tipo:"Varejo & Design",       tipoTag:"varejo",       address:"Av. Brasil, 305 · Santa Efigênia · Belo Horizonte · MG",       lat:-19.9251994, lng:-43.9229736, color:"#E8A020", initials:"MB",  instagram:"@madeinbeaga",                    whatsapp:"31997049482", descCurta:"Transforma a identidade de BH em produto, design e orgulho.", descLonga:"Lojas no Mercado Novo, Aeroporto e mega loja no Santa Efigênia. Leva BH para o Brasil e o mundo." },
-  { id:31, name:"RadioeXperience",               tipo:"Saúde & Tecnologia",    tipoTag:"saúde",        address:"Av. Jardins de Santa Mônica, 100 · Barra da Tijuca · RJ",     lat:-22.9981367, lng:-43.3958665, color:"#9E2B5A", initials:"RX",  instagram:"@radioexperience",                whatsapp:"21995500594", descCurta:"Plataforma para médicos radiologistas: atualização, network e comunidade.", descLonga:"Médico que coordena uma das maiores empresas de diagnóstico da América Latina." },
-  { id:32, name:"Real Filipaper Embalagens",     tipo:"Indústria",             tipoTag:"indústria",    address:"Rua Joana Kalil, 691 · Jardim Meriti · São João de Meriti · RJ", lat:-22.7877670, lng:-43.3706673, color:"#5A5A5A", initials:"RF",  instagram:"@matheus.alcaide",                whatsapp:"21976462575", descCurta:"Caixas de papelão ondulado personalizadas, foco B2B.", descLonga:"Indústria familiar com R$12M de faturamento, 35+ colaboradores e 700m² de área fabril." },
-  { id:33, name:"Recruta",                       tipo:"RH & Tecnologia",       tipoTag:"tecnologia",   address:"Rua Belchior de Azevedo, 156 · Leopoldina · SP",               lat:-23.5194249, lng:-46.7259412, color:"#2B7B5A", initials:"RC",  instagram:"@a.recruta",                      whatsapp:"11981273075", descCurta:"Plataforma de recrutamento que usa tecnologia para conectar empresas aos talentos certos.", descLonga:"Nasceu de processos seletivos ineficientes que prejudicam empresas e candidatos." },
-  { id:34, name:"Ímpar Presentes Únicos",        tipo:"Presentes Corporativos", tipoTag:"varejo",      address:"Av. das Américas, 3120 · Barra da Tijuca · RJ",                lat:-22.9994010, lng:-43.3441997, color:"#C9A020", initials:"IP",  instagram:"@imparpresentesunicos",           whatsapp:"21996081681", descCurta:"Presentes corporativos com significado — gestos que fortalecem vínculos.", descLonga:"6 anos criando experiências de presente sob medida a partir da cultura de cada empresa." },
-  { id:35, name:"Compliance com IA",             tipo:"Compliance & Jurídico", tipoTag:"jurídico",     address:"São Paulo · SP",                                              lat:-23.5406338, lng:-46.6320967, color:"#5A2B7B", initials:"RL",  instagram:"@rluz75",                         whatsapp:"11932779797", descCurta:"Solução de IA para tornar políticas internas e compliance acessíveis aos colaboradores.", descLonga:"20+ anos em Compliance e Jurídico Corporativo. Fase de validação da solução." },
-  { id:36, name:"Aloc Locação de Informática",   tipo:"Tecnologia",            tipoTag:"tecnologia",   address:"Rua Turiassu, 390 · Perdizes · SP",                            lat:-23.5332541, lng:-46.6666901, color:"#3A5A8B", initials:"AL",  instagram:null,                              whatsapp:"11987521817", descCurta:"Locação de equipamentos de informática.", descLonga:"" },
-  { id:37, name:"Pistachio Consultoria",         tipo:"Consultoria",           tipoTag:"consultoria",  address:"São José dos Campos · SP",                                    lat:-23.1875282, lng:-45.8920866, color:"#5A8B3A", initials:"PC",  instagram:"@alinedapistachio",               whatsapp:"22998398384", descCurta:"Ajudo empresas a contratar, desenvolver e reter talentos com assertividade.", descLonga:"91% de retenção após 12 meses, até 14% de economia na folha e NPS 100 em capacitação." }
+  {
+    id:1, name:"Sagrado Boulangerie", tipo:"Alimentação", tipoTag:"alimentação",
+    address:"Rua Dom Henrique Mourão, 158 · Santana · SP",
+    lat:-23.4914867, lng:-46.6323410, color:"#7B9E5A", initials:"SB",
+    instagram:null, whatsapp:null,
+    tags:["Alimentação","Santana","SP"],
+    descCurta:"Padaria semi artesanal.",
+    descLonga:""
+  },
+  {
+    id:2, name:"Hikari Collab", tipo:"Cafeteria", tipoTag:"cafeteria",
+    address:"Av. Prefeito Fábio Prado, 58 · Jd. Vila Mariana · SP",
+    lat:-23.5905049, lng:-46.6303366, color:"#D4500A", initials:"HC",
+    instagram:"@hikaricollab", whatsapp:"11950295544",
+    tags:["Cafeteria","Vila Mariana","SP"],
+    descCurta:"Cafeteria com cafés especiais, matcha, doces e salgados.",
+    descLonga:"A Hikari combina café, loja colaborativa e espaço para workshop."
+  },
+  {
+    id:3, name:"H2 Incorporadora", tipo:"Imobiliário", tipoTag:"imobiliário",
+    address:"Rua Maria Amélia da Silva, 153 · Campinas · SP",
+    lat:-22.7782623, lng:-47.0913996, color:"#5A7B9E", initials:"H2",
+    instagram:"@h2empreendimentos", whatsapp:"11999910990",
+    tags:["Imobiliário","Campinas","SP"],
+    descCurta:"Empreendimentos unifamiliares de forma alavancada.",
+    descLonga:"Iniciamos em 2024. Meta: VGV de 10 milhões até 2027."
+  },
+  {
+    id:4, name:"Foquinha Vidros e Autopeças", tipo:"Autopeças", tipoTag:"autopeças",
+    address:"Rua Itajaí, 288 · Centro · Criciúma · SC",
+    lat:-28.6793650, lng:-49.3629270, color:"#8B5A2B", initials:"FV",
+    instagram:"@foquinhavidros", whatsapp:"4834378808",
+    tags:["Autopeças","Criciúma","SC"],
+    descCurta:"Rede especializada em vidros automotivos.",
+    descLonga:""
+  },
+  {
+    id:5, name:"Mesquita e Cia", tipo:"Imobiliário", tipoTag:"imobiliário",
+    address:"Rua Princesa Isabel · Brooklin · SP",
+    lat:-23.6179876, lng:-46.6788278, color:"#2C5F8A", initials:"MC",
+    instagram:"@giovanamesquita85", whatsapp:"11975321520",
+    tags:["Imobiliário","Brooklin","SP"],
+    descCurta:"Inteligência financeira para realizar o sonho da casa própria.",
+    descLonga:"15+ anos nos setores imobiliário, financeiro e de incorporação."
+  },
+  {
+    id:6, name:"Queijaria Capriolês", tipo:"Alimentação", tipoTag:"alimentação",
+    address:"Av. Antônio Pincinatto, 5001 · Jundiaí · SP",
+    lat:-23.1990439, lng:-46.9673505, color:"#9E7B2B", initials:"QC",
+    instagram:"@caprilcaprioles", whatsapp:"11942475678",
+    tags:["Alimentação","Jundiaí","SP"],
+    descCurta:"Queijos artesanais de cabra e vaca, ciclo 100% fechado.",
+    descLonga:"Empresa familiar com 35+ anos. Criação, pecuária e produção próprias."
+  },
+  {
+    id:7, name:"Use Flor", tipo:"Joias e Semijoias", tipoTag:"moda",
+    address:"Estrada dos Três Rios, 90 · Freguesia · RJ",
+    lat:-22.9399862, lng:-43.3426671, color:"#9E5A8B", initials:"UF",
+    instagram:"@useflorjoias", whatsapp:"21996288402",
+    tags:["Joias","Freguesia","RJ"],
+    descCurta:"Joias e semijoias autorais inspiradas na natureza brasileira.",
+    descLonga:"Empresa familiar que une qualidade, design e significado."
+  },
+  {
+    id:8, name:"BATIK", tipo:"Moda e Calçados", tipoTag:"moda",
+    address:"Rua Joaquim Floriano, 111 · Itaim Bibi · SP",
+    lat:-23.5839107, lng:-46.6710974, color:"#7B4F2B", initials:"BT",
+    instagram:"@lojabatik", whatsapp:"11981577822",
+    tags:["Moda","Itaim Bibi","SP"],
+    descCurta:"Sapatos artesanais e autorais feitos à mão em couro legítimo.",
+    descLonga:"10 anos unindo criatividade e sensibilidade estética."
+  },
+  {
+    id:9, name:"Dra. Renata Santiago", tipo:"Saúde", tipoTag:"saúde",
+    address:"Rua Cincinato Braga, 340 · Bela Vista · SP",
+    lat:-23.5677136, lng:-46.6464224, color:"#C94880", initials:"RS",
+    instagram:"@dra.renatasantiago", whatsapp:"11913132504",
+    tags:["Saúde","Bela Vista","SP"],
+    descCurta:"Ginecologista focada em saúde da mulher 40+.",
+    descLonga:"Consultório para cuidar da mulher com ciência, escuta e acolhimento."
+  },
+  {
+    id:10, name:"Le Tatty Buffet", tipo:"Eventos", tipoTag:"eventos",
+    address:"Engenho de Dentro · Rio de Janeiro · RJ",
+    lat:-22.8939154, lng:-43.2954699, color:"#5A8B7B", initials:"LT",
+    instagram:"@letattybuffet", whatsapp:"21970198118",
+    tags:["Eventos","RJ"],
+    descCurta:"Gestão de buffet e eventos, do planejamento à execução.",
+    descLonga:"Especializada em alimentação para eventos, de confraternizações a corporativos."
+  },
+  {
+    id:11, name:"Alfagates", tipo:"Tecnologia", tipoTag:"tecnologia",
+    address:"Rua Afrânio de Melo Franco, 333 · Petrópolis · RJ",
+    lat:-22.5323876, lng:-43.2091467, color:"#3A7B9E", initials:"AG",
+    instagram:"@alfagates_br", whatsapp:"21991351072",
+    tags:["Tecnologia","Petrópolis","RJ"],
+    descCurta:"Integradora de serviços e soluções de TI.",
+    descLonga:"Fundada após 13 anos trabalhando para simplificar o uso de tecnologia."
+  },
+  {
+    id:12, name:"Canteiro AEC", tipo:"Gestão de Obras", tipoTag:"engenharia",
+    address:"Rua Cristóvão Nunes Pires, 110 · Florianópolis · SC",
+    lat:-27.5946216, lng:-48.5584379, color:"#4A7B5A", initials:"CA",
+    instagram:"@canteiroaec", whatsapp:"48984199862",
+    tags:["Engenharia","Florianópolis","SC"],
+    descCurta:"Reduzimos custo e imprevisibilidade em obras imobiliárias.",
+    descLonga:"10+ anos em gestão e coordenação de projetos em BIM. Atuação nacional."
+  },
+  {
+    id:13, name:"Noova", tipo:"Suplementos", tipoTag:"saúde",
+    address:"Goiânia · GO",
+    lat:-16.6868491, lng:-49.2707899, color:"#7B5A9E", initials:"NV",
+    instagram:"@mundonoova", whatsapp:"62992833899",
+    tags:["Suplementos","Goiânia","GO"],
+    descCurta:"Suplementos para energia, foco, bem-estar e qualidade do sono.",
+    descLonga:"Noova Boost (energia sem cafeína) e Noova Zen (relaxamento e sono)."
+  },
+  {
+    id:14, name:"Abad Terrenos", tipo:"Imobiliário", tipoTag:"imobiliário",
+    address:"Rua Mourato Coelho, 325 · Pinheiros · SP",
+    lat:-23.5646554, lng:-46.6869195, color:"#5A6B8A", initials:"AT",
+    instagram:null, whatsapp:null,
+    tags:["Imobiliário","Pinheiros","SP"],
+    descCurta:"Intermediação de terrenos para incorporação de edifícios.",
+    descLonga:"19 anos formando e negociando terrenos para incorporadoras."
+  },
+  {
+    id:15, name:"Castanha da Família", tipo:"Alimentação", tipoTag:"alimentação",
+    address:"Rua Álvaro Alvim, 27 · Centro · RJ",
+    lat:-22.9112272, lng:-43.1764122, color:"#C97B2B", initials:"CF",
+    instagram:"@castanhadafamilia", whatsapp:"21977947373",
+    tags:["Alimentação","Centro","RJ"],
+    descCurta:"Castanha de caju W1 direto da fazenda para consumo e corporativo.",
+    descLonga:"5 anos atendendo consumidor final, lojas e empresas com kits personalizados."
+  },
+  {
+    id:16, name:"Programa Talento e Profissão", tipo:"Educação", tipoTag:"educação",
+    address:"Rua Antônio Arthur Braga, 370 · Barra da Tijuca · RJ",
+    lat:-22.9841382, lng:-43.3849720, color:"#5A9E7B", initials:"TP",
+    instagram:"@andre.talento", whatsapp:"21996218198",
+    tags:["Educação","Barra da Tijuca","RJ"],
+    descCurta:"Ajudo adolescentes do ensino médio a escolherem suas carreiras.",
+    descLonga:"25 anos ajudando adolescentes no Brasil e exterior."
+  },
+  {
+    id:17, name:"TechMag", tipo:"Tecnologia", tipoTag:"tecnologia",
+    address:"Rua Manoela da Nóbrega, 211 · Paraíso · SP",
+    lat:-23.5697556, lng:-46.6493939, color:"#2B5A8B", initials:"TM",
+    instagram:"@techmag_autenticacao_biometria", whatsapp:"11963933662",
+    tags:["Tecnologia","Paraíso","SP"],
+    descCurta:"Biometria, autenticação digital e identidade para empresas.",
+    descLonga:"10+ anos em segurança digital: reconhecimento facial e prevenção a fraudes."
+  },
+  {
+    id:18, name:"Armazém 14", tipo:"Alimentação Saudável", tipoTag:"alimentação",
+    address:"Av. Ataulfo de Paiva, 1100 · Leblon · RJ",
+    lat:-22.9849701, lng:-43.2262491, color:"#5A9E5A", initials:"A14",
+    instagram:"@armazem14produtosnaturais", whatsapp:"21998447359",
+    tags:["Alimentação","Leblon","RJ"],
+    descCurta:"Mercearia saudável: orgânicos, sem glúten, sem leite e suplementos.",
+    descLonga:"11 anos no Leblon, 5.500 itens. Fundada por quem descobriu alergia ao glúten."
+  },
+  {
+    id:19, name:"Efeito Consciência", tipo:"Consultoria", tipoTag:"consultoria",
+    address:"Alphaville · SP",
+    lat:-23.4768588, lng:-46.8662018, color:"#8B3A7B", initials:"EC",
+    instagram:"@efeitoconsciencia", whatsapp:"32984259425",
+    tags:["Consultoria","Alphaville","SP"],
+    descCurta:"Parceira estratégica de empresas em crescimento.",
+    descLonga:"EC Lab (diagnóstico profundo) e GE 360 (gestor estratégico mensal)."
+  },
+  {
+    id:20, name:"Aline Sena Barcellos Advogada", tipo:"Advocacia", tipoTag:"jurídico",
+    address:"Av. Assis Chateaubriand, 95 · Setor Sul · Goiânia · GO",
+    lat:-16.6836135, lng:-49.2600257, color:"#7B2B5A", initials:"AS",
+    instagram:"@adv.alinesenabarcellos", whatsapp:"62981313300",
+    tags:["Advocacia","Goiânia","GO"],
+    descCurta:"Advogada em Direito Empresarial com foco em Moda e Influência Digital.",
+    descLonga:"20+ anos de trajetória. Iniciando carreira solo."
+  },
+  {
+    id:21, name:"Gola Golê", tipo:"Moda Infantil", tipoTag:"moda",
+    address:"Rua Contria, 1133 · Alto Barroca · Belo Horizonte · MG",
+    lat:-19.9354493, lng:-43.9683408, color:"#E85D7A", initials:"GG",
+    instagram:"@golagolekids", whatsapp:"31986444344",
+    tags:["Moda","Belo Horizonte","MG"],
+    descCurta:"Vestuário infantil: estética europeia com ziriguidum brasileiro.",
+    descLonga:"Lançamento em agosto/2026. E-commerce com experiências físicas em BH."
+  },
+  {
+    id:22, name:"Lili Picolé", tipo:"Moda Infantil", tipoTag:"moda",
+    address:"Av. Giovanni Gronchi, 4855 · Vila Andrade · SP",
+    lat:-23.6220602, lng:-46.7333247, color:"#E87B9E", initials:"LP",
+    instagram:"@lili.picole", whatsapp:"11926624023",
+    tags:["Moda","Vila Andrade","SP"],
+    descCurta:"E-commerce de moda infantil: roupas confortáveis e alegres.",
+    descLonga:"Nasceu para tornar a compra de roupas infantis mais leve para as famílias."
+  },
+  {
+    id:23, name:"Wanderlust Viagens", tipo:"Turismo", tipoTag:"turismo",
+    address:"Rua Mário Covas Jr, 335 · Barra da Tijuca · RJ",
+    lat:-23.0051730, lng:-43.3288352, color:"#2B7B9E", initials:"WV",
+    instagram:"@gestordemilhasvip", whatsapp:"21976696269",
+    tags:["Turismo","Barra da Tijuca","RJ"],
+    descCurta:"Viagens mais baratas com gestão de milhas e agência acoplada.",
+    descLonga:"Fundada por oficial da reserva da Marinha apaixonado por viagens."
+  },
+  {
+    id:24, name:"Venit Marketing", tipo:"Marketing Digital", tipoTag:"marketing",
+    address:"Juiz de Fora · MG",
+    lat:-21.7597391, lng:-43.3475695, color:"#5A3A9E", initials:"VM",
+    instagram:"@venit.marketing", whatsapp:"32998538748",
+    tags:["Marketing","Juiz de Fora","MG"],
+    descCurta:"Agência que une estratégia, dados e criatividade para crescimento real.",
+    descLonga:"8+ anos no mercado, Google Partner e Meta Business Partner."
+  },
+  {
+    id:25, name:"Anita Portugal Cerâmica", tipo:"Artesanato", tipoTag:"artesanato",
+    address:"Rua Frei Ernesto Emmendoerfer, 250 · Blumenau · SC",
+    lat:-26.9263449, lng:-49.0727624, color:"#C97B5A", initials:"AP",
+    instagram:"@anitaportugal", whatsapp:"47999320796",
+    tags:["Artesanato","Blumenau","SC"],
+    descCurta:"Peças de luxo em cerâmica com design autoral e acabamento refinado.",
+    descLonga:"Servidora pública e advogada que encontrou na cerâmica uma forma de expressão."
+  },
+  {
+    id:26, name:"Multi Turismo", tipo:"Turismo", tipoTag:"turismo",
+    address:"Estrada Padre Roser, 330 · Vila da Penha · RJ",
+    lat:-22.8409866, lng:-43.3162021, color:"#3A9E8B", initials:"MT",
+    instagram:"@multiturismorj", whatsapp:"2123422164",
+    tags:["Turismo","Vila da Penha","RJ"],
+    descCurta:"Agência especializada em viagens corporativas.",
+    descLonga:"Vivência internacional e gestão completa de viagens corporativas e lazer."
+  },
+  {
+    id:28, name:"Dayube Contabilidade", tipo:"Contabilidade", tipoTag:"jurídico",
+    address:"Av. Embaixador Abelardo Bueno, 1 · Barra da Tijuca · RJ",
+    lat:-22.9743555, lng:-43.3654006, color:"#4A5A7B", initials:"DC",
+    instagram:"@dayube_contabilidade", whatsapp:"21977171279",
+    tags:["Contabilidade","Barra da Tijuca","RJ"],
+    descCurta:"Assessoria contábil, tributária e trabalhista com quase 30 anos.",
+    descLonga:"Atende empresas de saúde, advogados, engenheiros e pessoas físicas."
+  },
+  {
+    id:29, name:"DalPet", tipo:"Pet", tipoTag:"pet",
+    address:"Av. Ministro Victor Konder, 188 · Centro · Itajaí · SC",
+    lat:-26.9089030, lng:-48.6543490, color:"#7B9E2B", initials:"DP",
+    instagram:"@dalpet.oficial", whatsapp:null,
+    tags:["Pet","Itajaí","SC"],
+    descCurta:"Ração premium e super premium para cães e gatos, com exportação.",
+    descLonga:"20+ anos no mercado. Empresa familiar buscando maior reconhecimento de marca."
+  },
+  {
+    id:30, name:"Made in Beagá", tipo:"Varejo", tipoTag:"varejo",
+    address:"Av. Brasil, 305 · Santa Efigênia · Belo Horizonte · MG",
+    lat:-19.9251994, lng:-43.9229736, color:"#E8A020", initials:"MB",
+    instagram:"@madeinbeaga", whatsapp:"31997049482",
+    tags:["Varejo","Belo Horizonte","MG"],
+    descCurta:"Transforma a identidade de BH em produto, design e orgulho.",
+    descLonga:"Lojas no Mercado Novo, Aeroporto e mega loja no Santa Efigênia."
+  },
+  {
+    id:31, name:"RadioeXperience", tipo:"Saúde e Tecnologia", tipoTag:"saúde",
+    address:"Av. Jardins de Santa Mônica, 100 · Barra da Tijuca · RJ",
+    lat:-22.9981367, lng:-43.3958665, color:"#9E2B5A", initials:"RX",
+    instagram:"@radioexperience", whatsapp:"21995500594",
+    tags:["Saúde","Barra da Tijuca","RJ"],
+    descCurta:"Plataforma para médicos radiologistas: atualização, network e comunidade.",
+    descLonga:"Médico que coordena uma das maiores empresas de diagnóstico da América Latina."
+  },
+  {
+    id:32, name:"Real Filipaper Embalagens", tipo:"Indústria", tipoTag:"indústria",
+    address:"Rua Joana Kalil, 691 · Jardim Meriti · São João de Meriti · RJ",
+    lat:-22.7877670, lng:-43.3706673, color:"#5A5A5A", initials:"RF",
+    instagram:"@matheus.alcaide", whatsapp:"21976462575",
+    tags:["Indústria","São João de Meriti","RJ"],
+    descCurta:"Caixas de papelão ondulado personalizadas, foco B2B.",
+    descLonga:"Indústria familiar com R$12M de faturamento e 35+ colaboradores."
+  },
+  {
+    id:33, name:"Recruta", tipo:"RH e Tecnologia", tipoTag:"tecnologia",
+    address:"Rua Belchior de Azevedo, 156 · Leopoldina · SP",
+    lat:-23.5194249, lng:-46.7259412, color:"#2B7B5A", initials:"RC",
+    instagram:"@a.recruta", whatsapp:"11981273075",
+    tags:["Tecnologia","Leopoldina","SP"],
+    descCurta:"Plataforma de recrutamento para conectar empresas aos talentos certos.",
+    descLonga:"Nasceu para tornar processos seletivos mais ágeis e assertivos."
+  },
+  {
+    id:34, name:"Impar Presentes Únicos", tipo:"Presentes Corporativos", tipoTag:"varejo",
+    address:"Av. das Américas, 3120 · Barra da Tijuca · RJ",
+    lat:-22.9994010, lng:-43.3441997, color:"#C9A020", initials:"IP",
+    instagram:"@imparpresentesunicos", whatsapp:"21996081681",
+    tags:["Varejo","Barra da Tijuca","RJ"],
+    descCurta:"Presentes corporativos com significado: gestos que fortalecem vínculos.",
+    descLonga:"6 anos criando experiências de presente sob medida para empresas."
+  },
+  {
+    id:35, name:"Compliance com IA", tipo:"Compliance", tipoTag:"jurídico",
+    address:"São Paulo · SP",
+    lat:-23.5406338, lng:-46.6320967, color:"#5A2B7B", initials:"RL",
+    instagram:"@rluz75", whatsapp:"11932779797",
+    tags:["Compliance","São Paulo","SP"],
+    descCurta:"IA para tornar políticas internas e compliance acessíveis aos colaboradores.",
+    descLonga:"20+ anos em Compliance e Jurídico Corporativo. Em fase de validação."
+  },
+  {
+    id:36, name:"Aloc Locação de Informática", tipo:"Tecnologia", tipoTag:"tecnologia",
+    address:"Rua Turiassu, 390 · Perdizes · SP",
+    lat:-23.5332541, lng:-46.6666901, color:"#3A5A8B", initials:"AL",
+    instagram:null, whatsapp:"11987521817",
+    tags:["Tecnologia","Perdizes","SP"],
+    descCurta:"Locação de equipamentos de informática.",
+    descLonga:""
+  },
+  {
+    id:37, name:"Pistachio Consultoria", tipo:"Consultoria", tipoTag:"consultoria",
+    address:"São José dos Campos · SP",
+    lat:-23.1875282, lng:-45.8920866, color:"#5A8B3A", initials:"PC",
+    instagram:"@alinedapistachio", whatsapp:"22998398384",
+    tags:["Consultoria","São José dos Campos","SP"],
+    descCurta:"Ajudo empresas a contratar, desenvolver e reter talentos com assertividade.",
+    descLonga:"91% de retenção após 12 meses e até 14% de economia na folha."
+  }
 ];
 
 // ── MAP ────────────────────────────────────────
