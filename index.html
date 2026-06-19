@@ -362,15 +362,18 @@
 <header>
   <div class="logo-block">
     <div class="logo">Mapa de <span>Donos</span></div>
-    <div class="tagline">Última atualização em 19/06 às 09:40</div>
+    <div class="tagline">Última atualização em 19/06 às 10:18</div>
   </div>
-  <div class="header-count"><strong id="visible-count">61</strong> donos mapeados</div>
+  <div class="header-count"><strong id="visible-count">67</strong> donos mapeados</div>
 </header>
 
 <div class="filters">
   <button class="filter-btn active" id="btn-todos" onclick="filterCards('todos', this)">Todos</button>
-  <select class="filter-select" id="segmento-select" onchange="filterBySelect(this)">
+  <select class="filter-select" id="segmento-select" onchange="filterBySegmento(this)">
     <option value="todos">Filtrar por segmento...</option>
+  </select>
+  <select class="filter-select" id="local-select" onchange="filterByLocal(this)">
+    <option value="todos">Filtrar por localização...</option>
   </select>
 </div>
 
@@ -392,7 +395,7 @@
 <script>
 const donos = [
   {
-    id:1, name:"Sagrado Boulangerie", tipo:"Alimentação", tipoTag:"alimentação",
+    id:1, uf:"SP", name:"Sagrado Boulangerie", tipo:"Alimentação", tipoTag:"alimentação",
     address:"Rua Dom Henrique Mourão, 158 · Santana · SP",
     lat:-23.4914867, lng:-46.6323410, color:"#7B9E5A", initials:"SB",
     instagram:null, whatsapp:null,
@@ -401,7 +404,7 @@ const donos = [
     descLonga:""
   },
   {
-    id:2, name:"Hikari Collab", tipo:"Cafeteria", tipoTag:"cafeteria",
+    id:2, uf:"SP", name:"Hikari Collab", tipo:"Cafeteria", tipoTag:"alimentação",
     address:"Av. Prefeito Fábio Prado, 58 · Jd. Vila Mariana · SP",
     lat:-23.5905049, lng:-46.6303366, color:"#D4500A", initials:"HC",
     instagram:"@hikaricollab", whatsapp:"11950295544",
@@ -410,7 +413,7 @@ const donos = [
     descLonga:"A Hikari combina café, loja colaborativa e espaço para workshop."
   },
   {
-    id:3, name:"H2 Incorporadora", tipo:"Imobiliário", tipoTag:"imobiliário",
+    id:3, uf:"SP", name:"H2 Incorporadora", tipo:"Imobiliário", tipoTag:"imobiliário",
     address:"Rua Maria Amélia da Silva, 153 · Campinas · SP",
     lat:-22.7782623, lng:-47.0913996, color:"#5A7B9E", initials:"H2",
     instagram:"@h2empreendimentos", whatsapp:"11999910990",
@@ -419,7 +422,7 @@ const donos = [
     descLonga:"Iniciamos em 2024. Meta: VGV de 10 milhões até 2027."
   },
   {
-    id:4, name:"Foquinha Vidros e Autopeças", tipo:"Autopeças", tipoTag:"autopeças",
+    id:4, uf:"SC", name:"Foquinha Vidros e Autopeças", tipo:"Autopeças", tipoTag:"varejo",
     address:"Rua Itajaí, 288 · Centro · Criciúma · SC",
     lat:-28.6793650, lng:-49.3629270, color:"#8B5A2B", initials:"FV",
     instagram:"@foquinhavidros", whatsapp:"4834378808",
@@ -428,7 +431,7 @@ const donos = [
     descLonga:""
   },
   {
-    id:5, name:"Mesquita e Cia", tipo:"Imobiliário", tipoTag:"imobiliário",
+    id:5, uf:"SP", name:"Mesquita e Cia", tipo:"Imobiliário", tipoTag:"imobiliário",
     address:"Rua Princesa Isabel · Brooklin · SP",
     lat:-23.6179876, lng:-46.6788278, color:"#2C5F8A", initials:"MC",
     instagram:"@giovanamesquita85", whatsapp:"11975321520",
@@ -437,7 +440,7 @@ const donos = [
     descLonga:"15+ anos nos setores imobiliário, financeiro e de incorporação."
   },
   {
-    id:6, name:"Queijaria Capriolês", tipo:"Alimentação", tipoTag:"alimentação",
+    id:6, uf:"SP", name:"Queijaria Capriolês", tipo:"Alimentação", tipoTag:"alimentação",
     address:"Av. Antônio Pincinatto, 5001 · Jundiaí · SP",
     lat:-23.1990439, lng:-46.9673505, color:"#9E7B2B", initials:"QC",
     instagram:"@caprilcaprioles", whatsapp:"11942475678",
@@ -446,7 +449,7 @@ const donos = [
     descLonga:"Empresa familiar com 35+ anos. Criação, pecuária e produção próprias."
   },
   {
-    id:7, name:"Use Flor", tipo:"Joias e Semijoias", tipoTag:"moda",
+    id:7, uf:"RJ", name:"Use Flor", tipo:"Joias e Semijoias", tipoTag:"moda",
     address:"Estrada dos Três Rios, 90 · Freguesia · RJ",
     lat:-22.9399862, lng:-43.3426671, color:"#9E5A8B", initials:"UF",
     instagram:"@useflorjoias", whatsapp:"21996288402",
@@ -455,7 +458,7 @@ const donos = [
     descLonga:"Empresa familiar que une qualidade, design e significado."
   },
   {
-    id:8, name:"BATIK", tipo:"Moda e Calçados", tipoTag:"moda",
+    id:8, uf:"SP", name:"BATIK", tipo:"Moda e Calçados", tipoTag:"moda",
     address:"Rua Joaquim Floriano, 111 · Itaim Bibi · SP",
     lat:-23.5839107, lng:-46.6710974, color:"#7B4F2B", initials:"BT",
     instagram:"@lojabatik", whatsapp:"11981577822",
@@ -464,7 +467,7 @@ const donos = [
     descLonga:"10 anos unindo criatividade e sensibilidade estética."
   },
   {
-    id:9, name:"Dra. Renata Santiago", tipo:"Saúde", tipoTag:"saúde",
+    id:9, uf:"SP", name:"Dra. Renata Santiago", tipo:"Saúde", tipoTag:"saúde",
     address:"Rua Cincinato Braga, 340 · Bela Vista · SP",
     lat:-23.5677136, lng:-46.6464224, color:"#C94880", initials:"RS",
     instagram:"@dra.renatasantiago", whatsapp:"11913132504",
@@ -473,7 +476,7 @@ const donos = [
     descLonga:"Consultório para cuidar da mulher com ciência, escuta e acolhimento."
   },
   {
-    id:10, name:"Le Tatty Buffet", tipo:"Eventos", tipoTag:"eventos",
+    id:10, uf:"RJ", name:"Le Tatty Buffet", tipo:"Eventos", tipoTag:"eventos",
     address:"Engenho de Dentro · Rio de Janeiro · RJ",
     lat:-22.8939154, lng:-43.2954699, color:"#5A8B7B", initials:"LT",
     instagram:"@letattybuffet", whatsapp:"21970198118",
@@ -482,7 +485,7 @@ const donos = [
     descLonga:"Especializada em alimentação para eventos, de confraternizações a corporativos."
   },
   {
-    id:11, name:"Alfagates", tipo:"Tecnologia", tipoTag:"tecnologia",
+    id:11, uf:"RJ", name:"Alfagates", tipo:"Tecnologia", tipoTag:"tecnologia",
     address:"Rua Afrânio de Melo Franco, 333 · Petrópolis · RJ",
     lat:-22.5323876, lng:-43.2091467, color:"#3A7B9E", initials:"AG",
     instagram:"@alfagates_br", whatsapp:"21991351072",
@@ -491,7 +494,7 @@ const donos = [
     descLonga:"Fundada após 13 anos trabalhando para simplificar o uso de tecnologia."
   },
   {
-    id:12, name:"Canteiro AEC", tipo:"Gestão de Obras", tipoTag:"engenharia",
+    id:12, uf:"SC", name:"Canteiro AEC", tipo:"Gestão de Obras", tipoTag:"engenharia",
     address:"Rua Cristóvão Nunes Pires, 110 · Florianópolis · SC",
     lat:-27.5946216, lng:-48.5584379, color:"#4A7B5A", initials:"CA",
     instagram:"@canteiroaec", whatsapp:"48984199862",
@@ -500,7 +503,7 @@ const donos = [
     descLonga:"10+ anos em gestão e coordenação de projetos em BIM. Atuação nacional."
   },
   {
-    id:13, name:"Noova", tipo:"Suplementos", tipoTag:"saúde",
+    id:13, uf:"GO", name:"Noova", tipo:"Suplementos", tipoTag:"saúde",
     address:"Goiânia · GO",
     lat:-16.6868491, lng:-49.2707899, color:"#7B5A9E", initials:"NV",
     instagram:"@mundonoova", whatsapp:"62992833899",
@@ -509,7 +512,7 @@ const donos = [
     descLonga:"Noova Boost (energia sem cafeína) e Noova Zen (relaxamento e sono)."
   },
   {
-    id:14, name:"Abad Terrenos", tipo:"Imobiliário", tipoTag:"imobiliário",
+    id:14, uf:"SP", name:"Abad Terrenos", tipo:"Imobiliário", tipoTag:"imobiliário",
     address:"Rua Mourato Coelho, 325 · Pinheiros · SP",
     lat:-23.5646554, lng:-46.6869195, color:"#5A6B8A", initials:"AT",
     instagram:null, whatsapp:null,
@@ -518,7 +521,7 @@ const donos = [
     descLonga:"19 anos formando e negociando terrenos para incorporadoras."
   },
   {
-    id:15, name:"Castanha da Família", tipo:"Alimentação", tipoTag:"alimentação",
+    id:15, uf:"RJ", name:"Castanha da Família", tipo:"Alimentação", tipoTag:"alimentação",
     address:"Rua Álvaro Alvim, 27 · Centro · RJ",
     lat:-22.9112272, lng:-43.1764122, color:"#C97B2B", initials:"CF",
     instagram:"@castanhadafamilia", whatsapp:"21977947373",
@@ -527,7 +530,7 @@ const donos = [
     descLonga:"5 anos atendendo consumidor final, lojas e empresas com kits personalizados."
   },
   {
-    id:16, name:"Programa Talento e Profissão", tipo:"Educação", tipoTag:"educação",
+    id:16, uf:"RJ", name:"Programa Talento e Profissão", tipo:"Educação", tipoTag:"educação",
     address:"Rua Antônio Arthur Braga, 370 · Barra da Tijuca · RJ",
     lat:-22.9841382, lng:-43.3849720, color:"#5A9E7B", initials:"TP",
     instagram:"@andre.talento", whatsapp:"21996218198",
@@ -536,7 +539,7 @@ const donos = [
     descLonga:"25 anos ajudando adolescentes no Brasil e exterior."
   },
   {
-    id:17, name:"TechMag", tipo:"Tecnologia", tipoTag:"tecnologia",
+    id:17, uf:"SP", name:"TechMag", tipo:"Tecnologia", tipoTag:"tecnologia",
     address:"Rua Manoela da Nóbrega, 211 · Paraíso · SP",
     lat:-23.5697556, lng:-46.6493939, color:"#2B5A8B", initials:"TM",
     instagram:"@techmag_autenticacao_biometria", whatsapp:"11963933662",
@@ -545,7 +548,7 @@ const donos = [
     descLonga:"10+ anos em segurança digital: reconhecimento facial e prevenção a fraudes."
   },
   {
-    id:18, name:"Armazém 14", tipo:"Alimentação Saudável", tipoTag:"alimentação",
+    id:18, uf:"RJ", name:"Armazém 14", tipo:"Alimentação Saudável", tipoTag:"alimentação",
     address:"Av. Ataulfo de Paiva, 1100 · Leblon · RJ",
     lat:-22.9849701, lng:-43.2262491, color:"#5A9E5A", initials:"A14",
     instagram:"@armazem14produtosnaturais", whatsapp:"21998447359",
@@ -554,7 +557,7 @@ const donos = [
     descLonga:"11 anos no Leblon, 5.500 itens. Fundada por quem descobriu alergia ao glúten."
   },
   {
-    id:19, name:"Efeito Consciência", tipo:"Consultoria", tipoTag:"consultoria",
+    id:19, uf:"SP", name:"Efeito Consciência", tipo:"Consultoria", tipoTag:"consultoria",
     address:"Alphaville · SP",
     lat:-23.4768588, lng:-46.8662018, color:"#8B3A7B", initials:"EC",
     instagram:"@efeitoconsciencia", whatsapp:"32984259425",
@@ -563,7 +566,7 @@ const donos = [
     descLonga:"EC Lab (diagnóstico profundo) e GE 360 (gestor estratégico mensal)."
   },
   {
-    id:20, name:"Aline Sena Barcellos Advogada", tipo:"Advocacia", tipoTag:"jurídico",
+    id:20, uf:"GO", name:"Aline Sena Barcellos Advogada", tipo:"Advocacia", tipoTag:"jurídico",
     address:"Av. Assis Chateaubriand, 95 · Setor Sul · Goiânia · GO",
     lat:-16.6836135, lng:-49.2600257, color:"#7B2B5A", initials:"AS",
     instagram:"@adv.alinesenabarcellos", whatsapp:"62981313300",
@@ -572,7 +575,7 @@ const donos = [
     descLonga:"20+ anos de trajetória. Iniciando carreira solo."
   },
   {
-    id:21, name:"Gola Golê", tipo:"Moda Infantil", tipoTag:"moda",
+    id:21, uf:"MG", name:"Gola Golê", tipo:"Moda Infantil", tipoTag:"moda",
     address:"Rua Contria, 1133 · Alto Barroca · Belo Horizonte · MG",
     lat:-19.9354493, lng:-43.9683408, color:"#E85D7A", initials:"GG",
     instagram:"@golagolekids", whatsapp:"31986444344",
@@ -581,7 +584,7 @@ const donos = [
     descLonga:"Lançamento em agosto/2026. E-commerce com experiências físicas em BH."
   },
   {
-    id:22, name:"Lili Picolé", tipo:"Moda Infantil", tipoTag:"moda",
+    id:22, uf:"SP", name:"Lili Picolé", tipo:"Moda Infantil", tipoTag:"moda",
     address:"Av. Giovanni Gronchi, 4855 · Vila Andrade · SP",
     lat:-23.6220602, lng:-46.7333247, color:"#E87B9E", initials:"LP",
     instagram:"@lili.picole", whatsapp:"11926624023",
@@ -590,7 +593,7 @@ const donos = [
     descLonga:"Nasceu para tornar a compra de roupas infantis mais leve para as famílias."
   },
   {
-    id:23, name:"Wanderlust Viagens", tipo:"Turismo", tipoTag:"turismo",
+    id:23, uf:"RJ", name:"Wanderlust Viagens", tipo:"Turismo", tipoTag:"turismo",
     address:"Rua Mário Covas Jr, 335 · Barra da Tijuca · RJ",
     lat:-23.0051730, lng:-43.3288352, color:"#2B7B9E", initials:"WV",
     instagram:"@gestordemilhasvip", whatsapp:"21976696269",
@@ -599,7 +602,7 @@ const donos = [
     descLonga:"Fundada por oficial da reserva da Marinha apaixonado por viagens."
   },
   {
-    id:24, name:"Venit Marketing", tipo:"Marketing Digital", tipoTag:"marketing",
+    id:24, uf:"MG", name:"Venit Marketing", tipo:"Marketing Digital", tipoTag:"marketing",
     address:"Juiz de Fora · MG",
     lat:-21.7597391, lng:-43.3475695, color:"#5A3A9E", initials:"VM",
     instagram:"@venit.marketing", whatsapp:"32998538748",
@@ -608,7 +611,7 @@ const donos = [
     descLonga:"8+ anos no mercado, Google Partner e Meta Business Partner."
   },
   {
-    id:25, name:"Anita Portugal Cerâmica", tipo:"Artesanato", tipoTag:"artesanato",
+    id:25, uf:"SC", name:"Anita Portugal Cerâmica", tipo:"Artesanato", tipoTag:"artesanato",
     address:"Rua Frei Ernesto Emmendoerfer, 250 · Blumenau · SC",
     lat:-26.9263449, lng:-49.0727624, color:"#C97B5A", initials:"AP",
     instagram:"@anitaportugal", whatsapp:"47999320796",
@@ -617,7 +620,7 @@ const donos = [
     descLonga:"Servidora pública e advogada que encontrou na cerâmica uma forma de expressão."
   },
   {
-    id:26, name:"Multi Turismo", tipo:"Turismo", tipoTag:"turismo",
+    id:26, uf:"RJ", name:"Multi Turismo", tipo:"Turismo", tipoTag:"turismo",
     address:"Estrada Padre Roser, 330 · Vila da Penha · RJ",
     lat:-22.8409866, lng:-43.3162021, color:"#3A9E8B", initials:"MT",
     instagram:"@multiturismorj", whatsapp:"2123422164",
@@ -626,7 +629,7 @@ const donos = [
     descLonga:"Vivência internacional e gestão completa de viagens corporativas e lazer."
   },
   {
-    id:28, name:"Dayube Contabilidade", tipo:"Contabilidade", tipoTag:"jurídico",
+    id:28, uf:"RJ", name:"Dayube Contabilidade", tipo:"Contabilidade", tipoTag:"jurídico",
     address:"Av. Embaixador Abelardo Bueno, 1 · Barra da Tijuca · RJ",
     lat:-22.9743555, lng:-43.3654006, color:"#4A5A7B", initials:"DC",
     instagram:"@dayube_contabilidade", whatsapp:"21977171279",
@@ -635,7 +638,7 @@ const donos = [
     descLonga:"Atende empresas de saúde, advogados, engenheiros e pessoas físicas."
   },
   {
-    id:29, name:"DalPet", tipo:"Pet", tipoTag:"pet",
+    id:29, uf:"SC", name:"DalPet", tipo:"Pet", tipoTag:"varejo",
     address:"Av. Ministro Victor Konder, 188 · Centro · Itajaí · SC",
     lat:-26.9089030, lng:-48.6543490, color:"#7B9E2B", initials:"DP",
     instagram:"@dalpet.oficial", whatsapp:null,
@@ -644,7 +647,7 @@ const donos = [
     descLonga:"20+ anos no mercado. Empresa familiar buscando maior reconhecimento de marca."
   },
   {
-    id:30, name:"Made in Beagá", tipo:"Varejo", tipoTag:"varejo",
+    id:30, uf:"MG", name:"Made in Beagá", tipo:"Varejo", tipoTag:"varejo",
     address:"Av. Brasil, 305 · Santa Efigênia · Belo Horizonte · MG",
     lat:-19.9251994, lng:-43.9229736, color:"#E8A020", initials:"MB",
     instagram:"@madeinbeaga", whatsapp:"31997049482",
@@ -653,7 +656,7 @@ const donos = [
     descLonga:"Lojas no Mercado Novo, Aeroporto e mega loja no Santa Efigênia."
   },
   {
-    id:31, name:"RadioeXperience", tipo:"Saúde e Tecnologia", tipoTag:"saúde",
+    id:31, uf:"RJ", name:"RadioeXperience", tipo:"Saúde e Tecnologia", tipoTag:"saúde",
     address:"Av. Jardins de Santa Mônica, 100 · Barra da Tijuca · RJ",
     lat:-22.9981367, lng:-43.3958665, color:"#9E2B5A", initials:"RX",
     instagram:"@radioexperience", whatsapp:"21995500594",
@@ -662,7 +665,7 @@ const donos = [
     descLonga:"Médico que coordena uma das maiores empresas de diagnóstico da América Latina."
   },
   {
-    id:32, name:"Real Filipaper Embalagens", tipo:"Indústria", tipoTag:"indústria",
+    id:32, uf:"RJ", name:"Real Filipaper Embalagens", tipo:"Indústria", tipoTag:"varejo",
     address:"Rua Joana Kalil, 691 · Jardim Meriti · São João de Meriti · RJ",
     lat:-22.7877670, lng:-43.3706673, color:"#5A5A5A", initials:"RF",
     instagram:"@matheus.alcaide", whatsapp:"21976462575",
@@ -671,7 +674,7 @@ const donos = [
     descLonga:"Indústria familiar com R$12M de faturamento e 35+ colaboradores."
   },
   {
-    id:33, name:"Recruta", tipo:"RH e Tecnologia", tipoTag:"tecnologia",
+    id:33, uf:"SP", name:"Recruta", tipo:"RH e Tecnologia", tipoTag:"tecnologia",
     address:"Rua Belchior de Azevedo, 156 · Leopoldina · SP",
     lat:-23.5194249, lng:-46.7259412, color:"#2B7B5A", initials:"RC",
     instagram:"@a.recruta", whatsapp:"11981273075",
@@ -680,7 +683,7 @@ const donos = [
     descLonga:"Nasceu para tornar processos seletivos mais ágeis e assertivos."
   },
   {
-    id:34, name:"Impar Presentes Únicos", tipo:"Presentes Corporativos", tipoTag:"varejo",
+    id:34, uf:"RJ", name:"Impar Presentes Únicos", tipo:"Presentes Corporativos", tipoTag:"varejo",
     address:"Av. das Américas, 3120 · Barra da Tijuca · RJ",
     lat:-22.9994010, lng:-43.3441997, color:"#C9A020", initials:"IP",
     instagram:"@imparpresentesunicos", whatsapp:"21996081681",
@@ -689,7 +692,7 @@ const donos = [
     descLonga:"6 anos criando experiências de presente sob medida para empresas."
   },
   {
-    id:35, name:"Compliance com IA", tipo:"Compliance", tipoTag:"jurídico",
+    id:35, uf:"SP", name:"Compliance com IA", tipo:"Compliance", tipoTag:"jurídico",
     address:"São Paulo · SP",
     lat:-23.5406338, lng:-46.6320967, color:"#5A2B7B", initials:"RL",
     instagram:"@rluz75", whatsapp:"11932779797",
@@ -698,7 +701,7 @@ const donos = [
     descLonga:"20+ anos em Compliance e Jurídico Corporativo. Em fase de validação."
   },
   {
-    id:36, name:"Aloc Locação de Informática", tipo:"Tecnologia", tipoTag:"tecnologia",
+    id:36, uf:"SP", name:"Aloc Locação de Informática", tipo:"Tecnologia", tipoTag:"tecnologia",
     address:"Rua Turiassu, 390 · Perdizes · SP",
     lat:-23.5332541, lng:-46.6666901, color:"#3A5A8B", initials:"AL",
     instagram:null, whatsapp:"11987521817",
@@ -707,7 +710,7 @@ const donos = [
     descLonga:""
   },
   {
-    id:37, name:"Pistachio Consultoria", tipo:"Consultoria", tipoTag:"consultoria",
+    id:37, uf:"SP", name:"Pistachio Consultoria", tipo:"Consultoria", tipoTag:"consultoria",
     address:"São José dos Campos · SP",
     lat:-23.1875282, lng:-45.8920866, color:"#5A8B3A", initials:"PC",
     instagram:"@alinedapistachio", whatsapp:"22998398384",
@@ -716,7 +719,7 @@ const donos = [
     descLonga:"91% de retenção após 12 meses e até 14% de economia na folha."
   },
   {
-    id:38, name:"Unibox", tipo:"Gráfica e Embalagens", tipoTag:"indústria",
+    id:38, uf:"PE", name:"Unibox", tipo:"Gráfica e Embalagens", tipoTag:"varejo",
     address:"Rua Constança, 775 · Campina do Barreto · Recife · PE",
     lat:-8.0163656, lng:-34.8840763, color:"#C95A2B", initials:"UB",
     instagram:"@uniboxbr", whatsapp:"81997446261",
@@ -725,7 +728,7 @@ const donos = [
     descLonga:"Nasceu na pandemia e cresceu com qualidade, confiança e atendimento personalizado."
   },
   {
-    id:39, name:"Tribu Formaturas", tipo:"Eventos", tipoTag:"eventos",
+    id:39, uf:"SP", name:"Tribu Formaturas", tipo:"Eventos", tipoTag:"eventos",
     address:"Rua Equestre, 19 · Fazenda Aricanduva · SP",
     lat:-23.5669232, lng:-46.4775426, color:"#7B3A9E", initials:"TF",
     instagram:"@_tribuformaturas", whatsapp:"11947713638",
@@ -734,7 +737,7 @@ const donos = [
     descLonga:"Desde 2013 transforma turmas em tribos e formaturas em experiências marcantes."
   },
   {
-    id:40, name:"Academia Focus", tipo:"Fitness", tipoTag:"saúde",
+    id:40, uf:"RJ", name:"Academia Focus", tipo:"Fitness", tipoTag:"saúde",
     address:"Rua Carolina Machado, 1340 · Bento Ribeiro · RJ",
     lat:-22.8651711, lng:-43.3563852, color:"#E85D2B", initials:"AF",
     instagram:"@academiafocusbr", whatsapp:"21987324626",
@@ -743,7 +746,7 @@ const donos = [
     descLonga:"Fundada por um ex-jogador de futebol apaixonado por educação física."
   },
   {
-    id:41, name:"i4V Corretora de Seguros", tipo:"Seguros", tipoTag:"seguros",
+    id:41, uf:"SP", name:"i4V Corretora de Seguros", tipo:"Seguros", tipoTag:"seguros",
     address:"Av. Dr. Chucri Zaidan, 1550 · Vila São Francisco · SP",
     lat:-23.6143546, lng:-46.6959465, color:"#2B5A7B", initials:"i4",
     instagram:"@i4vseguros", whatsapp:"11993483433",
@@ -752,7 +755,7 @@ const donos = [
     descLonga:"25+ anos no mercado corporativo. Proteção de pessoas, patrimônio e sustentabilidade."
   },
   {
-    id:42, name:"E-Motors Mobility", tipo:"Mobilidade Elétrica", tipoTag:"tecnologia",
+    id:42, uf:"SP", name:"E-Motors Mobility", tipo:"Mobilidade Elétrica", tipoTag:"tecnologia",
     address:"Rua Urupiara, 523 · Santana · SP",
     lat:-23.5092093, lng:-46.6240576, color:"#2B9E5A", initials:"EM",
     instagram:"@emotors_br", whatsapp:"11969129945",
@@ -761,7 +764,7 @@ const donos = [
     descLonga:"Fundada em 2019 por dois amigos que queriam transformar o segmento elétrico."
   },
   {
-    id:43, name:"ovOvo Caipira", tipo:"Alimentação", tipoTag:"alimentação",
+    id:43, uf:"MG", name:"ovOvo Caipira", tipo:"Alimentação", tipoTag:"alimentação",
     address:"Rua Pium-Í, 784 · Cruzeiro · Belo Horizonte · MG",
     lat:-19.9465242, lng:-43.9311590, color:"#E8A020", initials:"OV",
     instagram:"@ovovocaipira", whatsapp:"31984489512",
@@ -770,7 +773,7 @@ const donos = [
     descLonga:"Desde 2019 conectando pequenos produtores do interior às mesas das famílias."
   },
   {
-    id:45, name:"Titania Comex", tipo:"Comércio Exterior", tipoTag:"consultoria",
+    id:45, uf:"PR", name:"Titania Comex", tipo:"Comércio Exterior", tipoTag:"consultoria",
     address:"Av. Carneiro Leão, 294 · Maringá · PR",
     lat:-23.4196537, lng:-51.9461537, color:"#5A2B9E", initials:"TC",
     instagram:"@janaina.alionco", whatsapp:"44988119424",
@@ -779,7 +782,7 @@ const donos = [
     descLonga:"Criada para oferecer segurança e eficiência nas operações internacionais."
   },
   {
-    id:46, name:"Executa.co", tipo:"Marketing Digital", tipoTag:"marketing",
+    id:46, uf:"SP", name:"Executa.co", tipo:"Marketing Digital", tipoTag:"marketing",
     address:"São Paulo · SP (Remoto)",
     lat:-23.5406338, lng:-46.6320967, color:"#9E2B7B", initials:"EX",
     instagram:"@executa.co", whatsapp:"11981729311",
@@ -788,7 +791,7 @@ const donos = [
     descLonga:"Fundada em 2021. Transforma líderes invisíveis no digital em referências com presença."
   },
   {
-    id:47, name:"STC Intercâmbio", tipo:"Educação Internacional", tipoTag:"educação",
+    id:47, uf:"SP", name:"STC Intercâmbio", tipo:"Educação Internacional", tipoTag:"educação",
     address:"Campinas · SP",
     lat:-22.8852608, lng:-47.0717111, color:"#2B7B9E", initials:"ST",
     instagram:"@marianaduartelussari", whatsapp:"19982607927",
@@ -797,7 +800,7 @@ const donos = [
     descLonga:"Atende famílias e profissionais com parcerias diretas com instituições internacionais."
   },
   {
-    id:48, name:"LK Odontologia", tipo:"Saúde", tipoTag:"saúde",
+    id:48, uf:"DF", name:"LK Odontologia", tipo:"Saúde", tipoTag:"saúde",
     address:"SRTVS Quadra 701, Bloco O · Brasília · DF",
     lat:-15.8067263, lng:-47.8822522, color:"#2B9E7B", initials:"LK",
     instagram:"@lkodontologia", whatsapp:"61999029787",
@@ -806,7 +809,7 @@ const donos = [
     descLonga:"30 anos de história. Novo gestor assumindo e profissionalizando a operação."
   },
   {
-    id:49, name:"MEDIA360VR", tipo:"Mídia Digital", tipoTag:"tecnologia",
+    id:49, uf:"USA", name:"MEDIA360VR", tipo:"Mídia Digital", tipoTag:"tecnologia",
     address:"14343 Addison St · Sherman Oaks · CA · USA",
     lat:34.1614250, lng:-118.4459454, color:"#7B2B9E", initials:"MV",
     instagram:"@media360vr", whatsapp:null,
@@ -815,7 +818,7 @@ const donos = [
     descLonga:"Fundada em LA durante a pandemia, quando o tour virtual se tornou essencial para vender imóveis."
   },
   {
-    id:50, name:"Platinum Teleinformática", tipo:"Tecnologia", tipoTag:"tecnologia",
+    id:50, uf:"RJ", name:"Platinum Teleinformática", tipo:"Tecnologia", tipoTag:"tecnologia",
     address:"Rua Francisco Eugênio, 268 · São Cristóvão · RJ",
     lat:-22.9069692, lng:-43.2185146, color:"#3A5A8B", initials:"PT",
     instagram:"@platinumti", whatsapp:"21992623262",
@@ -824,7 +827,7 @@ const donos = [
     descLonga:"Desde 1992 no mercado. Adquirida em 2002, crescimento constante ano a ano."
   },
   {
-    id:51, name:"B/2 Negócios em Moda", tipo:"Moda", tipoTag:"moda",
+    id:51, uf:"RS", name:"B/2 Negócios em Moda", tipo:"Moda", tipoTag:"moda",
     address:"Rua Dr. Ernesto Ludwig, 256 · Porto Alegre · RS",
     lat:-30.0378789, lng:-51.1643160, color:"#9E5A7B", initials:"B2",
     instagram:"@b2negociosdemoda", whatsapp:"51999815497",
@@ -833,7 +836,7 @@ const donos = [
     descLonga:"Showroom em POA. Representa Animale, Fórum, Reserva, VIX, Água de Coco e outras."
   },
   {
-    id:52, name:"Combustão Company", tipo:"Marketing Digital", tipoTag:"marketing",
+    id:52, uf:"PE", name:"Combustão Company", tipo:"Marketing Digital", tipoTag:"marketing",
     address:"Av. Conselheiro Aguiar, 2738 · Boa Viagem · Recife · PE",
     lat:-8.1131332, lng:-34.8931278, color:"#E85D2B", initials:"CC",
     instagram:"@allysonmota", whatsapp:"81983142657",
@@ -842,7 +845,7 @@ const donos = [
     descLonga:"Ex-SEBRAE e Head de Tráfego Pago. Tráfego pago, CRM, Google Meu Negócio e mais."
   },
   {
-    id:53, name:"Conceito Carioca", tipo:"Imobiliário", tipoTag:"imobiliário",
+    id:53, uf:"RJ", name:"Conceito Carioca", tipo:"Imobiliário", tipoTag:"imobiliário",
     address:"Estrada da Gávea, 696 · São Conrado · RJ",
     lat:-22.9946361, lng:-43.2581873, color:"#5A7B2B", initials:"CC",
     instagram:"@conceitocariocaimoveis", whatsapp:"21971673772",
@@ -851,16 +854,16 @@ const donos = [
     descLonga:"Fundada por arquiteta com 25+ anos entre decoração e incorporação imobiliária."
   },
   {
-    id:54, name:"Commtudo", tipo:"Consultoria E-commerce", tipoTag:"consultoria",
-    address:"Brasil (atuação nacional)",
-    lat:-23.5505199, lng:-46.6333094, color:"#3A9E2B", initials:"CT",
+    id:54, uf:"RJ", name:"Commtudo", tipo:"Consultoria E-commerce", tipoTag:"consultoria",
+    address:"Rio de Janeiro · RJ",
+    lat:-22.9068467, lng:-43.1728965, color:"#3A9E2B", initials:"CT",
     instagram:"@commtudo", whatsapp:"21974744343",
-    tags:["Consultoria","E-commerce","Brasil"],
+    tags:["Consultoria","E-commerce","RJ"],
     descCurta:"Consultor de e-commerce e negócios digitais para varejistas de vários segmentos.",
     descLonga:""
   },
   {
-    id:55, name:"Espaço Depp", tipo:"Beleza e Bem-Estar", tipoTag:"beleza",
+    id:55, uf:"PE", name:"Espaço Depp", tipo:"Beleza e Bem-Estar", tipoTag:"beleza",
     address:"Rua José Antônio da Silveira, 36 · Madalena · Recife · PE",
     lat:-8.0513884, lng:-34.9057158, color:"#E85D9E", initials:"ED",
     instagram:"@cint_almeida", whatsapp:"81986494135",
@@ -869,7 +872,7 @@ const donos = [
     descLonga:"Parceira SEBRAE e SENAC, Presidente do SinbelezaPE e mentora de empresários da beleza."
   },
   {
-    id:56, name:"Rough Comunicação", tipo:"Marketing e Eventos", tipoTag:"marketing",
+    id:56, uf:"SP", name:"Rough Comunicação", tipo:"Marketing e Eventos", tipoTag:"marketing",
     address:"Rua Rio Grande, 783 · Vila Mariana · SP",
     lat:-23.5910460, lng:-46.6406419, color:"#5A2B9E", initials:"RC",
     instagram:"@Rough.agencia", whatsapp:"11996564880",
@@ -878,7 +881,7 @@ const donos = [
     descLonga:"15 anos no mercado em modelo boutique, atendendo grandes marcas e multinacionais."
   },
   {
-    id:57, name:"Cambraia Hotel", tipo:"Hotelaria", tipoTag:"hotelaria",
+    id:57, uf:"MG", name:"Cambraia Hotel", tipo:"Hotelaria", tipoTag:"imobiliário",
     address:"Arcos · MG",
     lat:-20.2877772, lng:-45.5396929, color:"#9E7B2B", initials:"CH",
     instagram:"@cambraiahotelarcos", whatsapp:"3733515560",
@@ -887,7 +890,7 @@ const donos = [
     descLonga:"22 anos como bancária, um burnout e um AVC trouxeram a virada para assumir o negócio da família."
   },
   {
-    id:58, name:"Agaju Mulher e Agaju Festa", tipo:"Moda", tipoTag:"moda",
+    id:58, uf:"RS", name:"Agaju Mulher e Agaju Festa", tipo:"Moda", tipoTag:"moda",
     address:"Rua Domingos de Almeida, 1670 · Uruguaiana · RS",
     lat:-29.7543704, lng:-57.0850026, color:"#C9205A", initials:"AG",
     instagram:"@agajumulher", whatsapp:"55999722577",
@@ -896,7 +899,7 @@ const donos = [
     descLonga:"25 anos de história. Começou com revenda de cosméticos e evoluiu para loja própria."
   },
   {
-    id:59, name:"Ensina Mais Piedade", tipo:"Educação", tipoTag:"educação",
+    id:59, uf:"PE", name:"Ensina Mais Piedade", tipo:"Educação", tipoTag:"educação",
     address:"Piedade · Jaboatão dos Guararapes · PE",
     lat:-8.1719092, lng:-34.9438341, color:"#2B7B5A", initials:"EM",
     instagram:"@ensinamais.piedadepe", whatsapp:"81986362525",
@@ -905,7 +908,7 @@ const donos = [
     descLonga:"Franquia iniciada pela paixão por tecnologia e ensino, com foco em acolhimento e resultados."
   },
   {
-    id:60, name:"artECOletiva", tipo:"Design e Consultoria", tipoTag:"consultoria",
+    id:60, uf:"RJ", name:"artECOletiva", tipo:"Design e Consultoria", tipoTag:"consultoria",
     address:"Rua Prudente de Morais, 1144 · Ipanema · RJ",
     lat:-22.9850597, lng:-43.2076696, color:"#7B5A9E", initials:"SB",
     instagram:"@silviablumbergcultrj", whatsapp:"21999878974",
@@ -914,7 +917,7 @@ const donos = [
     descLonga:"Trajetória multifacetada na intersecção entre Educação, Cultura, Design e Sustentabilidade."
   },
   {
-    id:61, name:"Andromeda Coffee Co", tipo:"Café", tipoTag:"cafeteria",
+    id:61, uf:"RJ", name:"Andromeda Coffee Co", tipo:"Café", tipoTag:"alimentação",
     address:"Rio de Janeiro · RJ (vendas online)",
     lat:-22.9068467, lng:-43.1728965, color:"#8B5A2B", initials:"AC",
     instagram:"@brunogoulart", whatsapp:"21998074808",
@@ -923,7 +926,7 @@ const donos = [
     descLonga:"Casal fundador prova cada lote com o produtor e acompanha a torra de forma artesanal."
   },
   {
-    id:62, name:"Kid's Garden", tipo:"Educação", tipoTag:"educação",
+    id:62, uf:"SP", name:"Kid's Garden", tipo:"Educação", tipoTag:"educação",
     address:"Av. Barão do Rio Branco, 309 · Jd. Esplanada · São José dos Campos · SP",
     lat:-23.1953311, lng:-45.9026713, color:"#2B9E9E", initials:"KG",
     instagram:"@kidsgardensjc", whatsapp:"1299196 1861",
@@ -932,13 +935,67 @@ const donos = [
     descLonga:"15+ anos em educação. Nasceu do desejo de ensinar inglês à própria filha."
   },
   {
-    id:63, name:"Óticas Maxvision", tipo:"Óptica Premium", tipoTag:"varejo",
+    id:63, uf:"RJ", name:"Óticas Maxvision", tipo:"Óptica Premium", tipoTag:"varejo",
     address:"Shopping Leblon · Rio de Janeiro · RJ",
     lat:-22.9824704, lng:-43.2168792, color:"#5A5A9E", initials:"MX",
     instagram:"@oticasmaxvision", whatsapp:"21999638129",
     tags:["Varejo","Leblon","RJ"],
     descCurta:"30+ anos no mercado óptico premium e de luxo no Rio de Janeiro e Niterói.",
     descLonga:"Pioneira em trazer Chanel, Celine e Illesteva para o Brasil. Hoje expande para biometria e IA."
+  },
+  {
+    id:64, uf:"SP", name:"Luka Imóveis", tipo:"Imobiliária", tipoTag:"imobiliário",
+    address:"Rua Padre João Goetz, 907 · Vila Guaíra · Presidente Prudente · SP",
+    lat:-22.1298190, lng:-51.4107625, color:"#2B5A7B", initials:"LK",
+    instagram:"@leonardokalencar", whatsapp:"18997220707",
+    tags:["Imobiliário","Presidente Prudente","SP"],
+    descCurta:"Gestão patrimonial e negócios imobiliários, com foco em imóveis comerciais.",
+    descLonga:"Atua em todo o Brasil assessorando locações, vendas e expansão de redes como Havan e Cobasi."
+  },
+  {
+    id:65, uf:"RJ", name:"FIURJ", tipo:"Educação Superior", tipoTag:"educação",
+    address:"Av. Rio Branco, 277 · Cinelândia · Centro · RJ",
+    lat:-22.9118133, lng:-43.1747917, color:"#7B2B5A", initials:"FI",
+    instagram:"@Faculdadeiurj", whatsapp:"21996500996",
+    tags:["Educação","Centro","RJ"],
+    descCurta:"Instituição de ensino superior em Ciências Jurídicas, da graduação ao pós-doutorado.",
+    descLonga:"20+ anos levando alunos para mestrado e doutorado na Europa. Graduação no RJ desde 2019."
+  },
+  {
+    id:66, uf:"RJ", name:"Ventura Advogados", tipo:"Advocacia Tributária", tipoTag:"jurídico",
+    address:"Av. das Américas, 3500 · Barra da Tijuca · RJ",
+    lat:-22.9988321, lng:-43.3486571, color:"#9E2B2B", initials:"VA",
+    instagram:"@leoventura", whatsapp:"21999998450",
+    tags:["Jurídico","Barra da Tijuca","RJ"],
+    descCurta:"Consultoria tributária e legal para estruturação de negócios e investimentos.",
+    descLonga:"26+ anos de experiência. Também professor e mentor em FGV, Ibmec e UFRJ."
+  },
+  {
+    id:67, uf:"SP", name:"Flico", tipo:"E-commerce", tipoTag:"varejo",
+    address:"Rua Campos Sales, 708 · Centro · Itatiba · SP",
+    lat:-23.0049165, lng:-46.8369963, color:"#5A2B9E", initials:"FL",
+    instagram:"@Luan.pcoelho", whatsapp:"19989693787",
+    tags:["Varejo","Itatiba","SP"],
+    descCurta:"Flipbooks artesanais que transformam momentos esportivos e pessoais em colecionáveis.",
+    descLonga:"Vindo do iGaming, novo capítulo em produto físico que ganha vida ao folhear."
+  },
+  {
+    id:68, uf:"RJ", name:"DM Consultoria de Pricing e RGM", tipo:"Consultoria", tipoTag:"consultoria",
+    address:"Barra da Tijuca · RJ",
+    lat:-22.9988321, lng:-43.3486571, color:"#2B9E5A", initials:"DM",
+    instagram:null, whatsapp:"21997544433",
+    tags:["Consultoria","Barra da Tijuca","RJ"],
+    descCurta:"Estratégia de preços, equilibrando competitividade, rentabilidade e valor percebido.",
+    descLonga:"25+ anos em Shell e Michelin. Fundou a DM em 2024 para ajudar empresas a estruturar pricing."
+  },
+  {
+    id:69, uf:"SP", name:"Tokeen", tipo:"Fintech", tipoTag:"tecnologia",
+    address:"Rua do Rocio, 291 · Vila Olímpia · SP",
+    lat:-23.5944037, lng:-46.6865113, color:"#9E5A2B", initials:"TK",
+    instagram:"@tokeen_oficial", whatsapp:"11987936289",
+    tags:["Tecnologia","Vila Olímpia","SP"],
+    descCurta:"Programas de crédito B2B baseados em recebíveis para destravar compras e vendas.",
+    descLonga:"Atua em franquias, varejo, shopping centers, indústrias e atacarejos."
   }
 ];
 
@@ -1057,30 +1114,69 @@ function filterCards(tag, btn) {
   renderCards(filtered);
 }
 
-// Popular dropdown com segmentos únicos dos donos cadastrados
+// Popular dropdowns com segmentos e localizações únicas dos donos cadastrados
+const categoriaLabels = {
+  'alimentação': '🍽️ Alimentação',
+  'moda': '👗 Moda',
+  'imobiliário': '🏠 Imobiliário',
+  'tecnologia': '💻 Tecnologia',
+  'consultoria': '📊 Consultoria',
+  'marketing': '📣 Marketing',
+  'jurídico': '⚖️ Jurídico',
+  'saúde': '🩺 Saúde',
+  'educação': '🎓 Educação',
+  'eventos': '🎉 Eventos',
+  'varejo': '🛍️ Varejo',
+  'turismo': '🌍 Turismo',
+  'beleza': '💄 Beleza',
+  'engenharia': '🏗️ Engenharia',
+  'seguros': '🛡️ Seguros',
+  'artesanato': '🎨 Artesanato'
+};
+
+const ufLabels = {
+  'SP':'SP','RJ':'RJ','MG':'MG','SC':'SC','RS':'RS','PR':'PR',
+  'GO':'GO','PE':'PE','DF':'DF','BR':'🇧🇷 Brasil (nacional)','USA':'🇺🇸 Estados Unidos'
+};
+
 function populateSelect() {
   const select = document.getElementById('segmento-select');
-  const segmentos = [...new Set(donos.map(d => d.tipo))].sort();
-  segmentos.forEach(seg => {
+  const tagsUnicas = [...new Set(donos.map(d => d.tipoTag))].sort();
+  tagsUnicas.forEach(tag => {
     const opt = document.createElement('option');
-    opt.value = donos.find(d => d.tipo === seg).tipoTag;
-    opt.textContent = seg;
+    opt.value = tag;
+    opt.textContent = categoriaLabels[tag] || tag;
     select.appendChild(opt);
+  });
+
+  const localSelect = document.getElementById('local-select');
+  const ufsUnicas = [...new Set(donos.map(d => d.uf))].sort();
+  ufsUnicas.forEach(uf => {
+    const opt = document.createElement('option');
+    opt.value = uf;
+    opt.textContent = ufLabels[uf] || uf;
+    localSelect.appendChild(opt);
   });
 }
 
-function filterBySelect(select) {
-  const val = select.value;
-  // Resetar botão Todos
+function applyFilters() {
+  const segVal = document.getElementById('segmento-select').value;
+  const localVal = document.getElementById('local-select').value;
+
   document.getElementById('btn-todos').classList.remove('active');
-  if (val === 'todos') {
+  document.getElementById('segmento-select').classList.toggle('active', segVal !== 'todos');
+  document.getElementById('local-select').classList.toggle('active', localVal !== 'todos');
+
+  if (segVal === 'todos' && localVal === 'todos') {
     document.getElementById('btn-todos').classList.add('active');
-    select.classList.remove('active');
-    select.value = 'todos';
-  } else {
-    select.classList.add('active');
   }
-  const filtered = val === 'todos' ? donos : donos.filter(d => d.tipoTag === val);
+
+  const filtered = donos.filter(d => {
+    const matchSeg = segVal === 'todos' || d.tipoTag === segVal;
+    const matchLocal = localVal === 'todos' || d.uf === localVal;
+    return matchSeg && matchLocal;
+  });
+
   donos.forEach(d => {
     const m = markers[d.id];
     if (filtered.find(f => f.id === d.id)) { if (!map.hasLayer(m)) map.addLayer(m); }
@@ -1089,13 +1185,17 @@ function filterBySelect(select) {
   renderCards(filtered);
 }
 
-// Sobrescrever filterCards para sincronizar com select
+function filterBySegmento(select) { applyFilters(); }
+function filterByLocal(select) { applyFilters(); }
+
+// Sobrescrever filterCards (botão Todos) para resetar os dois selects
 const _filterCards = filterCards;
 window.filterCards = function(tag, btn) {
   _filterCards(tag, btn);
-  const select = document.getElementById('segmento-select');
-  select.value = 'todos';
-  select.classList.remove('active');
+  document.getElementById('segmento-select').value = 'todos';
+  document.getElementById('segmento-select').classList.remove('active');
+  document.getElementById('local-select').value = 'todos';
+  document.getElementById('local-select').classList.remove('active');
 };
 
 // init
