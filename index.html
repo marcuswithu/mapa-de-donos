@@ -330,6 +330,10 @@
     bottom: 20px;
     right: 24px;
     z-index: 999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
   }
 
   .cta-btn {
@@ -347,8 +351,16 @@
     align-items: center;
     gap: 8px;
     transition: transform .15s, box-shadow .15s;
+    text-decoration: none;
   }
   .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212,80,10,.4); }
+  .cta-btn.secondary {
+    background: var(--ink);
+    box-shadow: 0 4px 16px rgba(0,0,0,.2);
+    font-size: 12px;
+    padding: 10px 16px;
+  }
+  .cta-btn.secondary:hover { box-shadow: 0 6px 20px rgba(0,0,0,.3); }
 
   @media (max-width: 700px) {
     .main { flex-direction: column; height: auto; }
@@ -362,9 +374,9 @@
 <header>
   <div class="logo-block">
     <div class="logo">Mapa de <span>Donos</span></div>
-    <div class="tagline">Última atualização em 26/06 às 06:45</div>
+    <div class="tagline">Última atualização em 07/08 às 13:40</div>
   </div>
-  <div class="header-count"><strong id="visible-count">95</strong> donos mapeados</div>
+  <div class="header-count"><strong id="visible-count">102</strong> donos mapeados</div>
 </header>
 
 <div class="filters">
@@ -386,6 +398,12 @@
 </div>
 
 <div class="cta-bar">
+  <a class="cta-btn secondary" href="https://chat.whatsapp.com/DHMvz09xDNP4WgePbJETPa" target="_blank">
+    🤝 Encontro SP
+  </a>
+  <a class="cta-btn secondary" href="https://chat.whatsapp.com/EgpXTfCQUIJK9TH1FjlqZN" target="_blank">
+    🤝 Encontro RJ
+  </a>
   <button class="cta-btn" onclick="alert('Acesse o formulário para cadastrar seu negócio:\n\nhttps://forms.office.com/r/54n7Z7F78V')">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
     Quero entrar no mapa
@@ -1248,6 +1266,69 @@ const donos = [
     tags:["Consultoria","Guaratuba","PR"],
     descCurta:"Ecossistema de design especialista em casas de férias, do primeiro desenho ao primeiro jantar.",
     descLonga:"Método próprio e linha exclusiva de marcenaria costeira, projetada para resistir à umidade e à maresia."
+  },
+  {
+    id:99, uf:"RJ", name:"Lucho Verde", tipo:"Decoração Floral", tipoTag:"eventos",
+    address:"Rua Engenheiro Neves da Rocha, 74 · Itanhangá · RJ",
+    lat:-22.9878951, lng:-43.3010298, color:"#2B9E5A", initials:"LV",
+    instagram:"@Lucho_verde", whatsapp:"21999892231",
+    tags:["Eventos","Itanhangá","RJ"],
+    descCurta:"Decoração floral para eventos corporativos, festas particulares e buquês para presente.",
+    descLonga:"Empreendedora serial buscando profissionalização em administração e marketing para escalar a Lucho Verde."
+  },
+  {
+    id:100, uf:"RS", name:"Free Kitchen", tipo:"Alimentação", tipoTag:"alimentação",
+    address:"Rua Monsenhor Veras, 630 · Santana · Porto Alegre · RS",
+    lat:-30.0485781, lng:-51.1994970, color:"#5A9E2B", initials:"FK",
+    instagram:"@Freekitchenbr", whatsapp:"51984036389",
+    tags:["Alimentação","Porto Alegre","RS"],
+    descCurta:"Doces zero açúcar, zero glúten e zero lácteos para B2B e B2C.",
+    descLonga:"Nasceu de restrições alimentares da família. 4 anos de história, se reerguendo após as enchentes de 2024 em POA."
+  },
+  {
+    id:101, uf:"MG", name:"Quintas do João", tipo:"Alimentação", tipoTag:"alimentação",
+    address:"Rua Marquês de Paranaguá, 125 · Santo Antônio · Belo Horizonte · MG",
+    lat:-19.9392180, lng:-43.9470118, color:"#9E7B2B", initials:"QJ",
+    instagram:"@quintasdojoao", whatsapp:"31983143901",
+    tags:["Alimentação","Belo Horizonte","MG"],
+    descCurta:"Ovos caipiras, queijos e produtos da roça frescos entregues em domicílio em BH e Nova Lima.",
+    descLonga:"Fazenda familiar com galinhas soltas e criação natural. Logística própria de produtos frescos direto ao consumidor."
+  },
+  {
+    id:102, uf:"SC", name:"FitBar", tipo:"Alimentação", tipoTag:"alimentação",
+    address:"Rua João Henrique Gonçalves, 1733 · Lagoa da Conceição · Florianópolis · SC",
+    lat:-27.5861453, lng:-48.4614863, color:"#C9A020", initials:"FB",
+    instagram:null, whatsapp:null,
+    tags:["Alimentação","Florianópolis","SC"],
+    descCurta:"Barras de proteína salgadas, desenvolvidas com 2 anos de P&D em engenharia de alimentos.",
+    descLonga:"Saiu de 15 anos em shopping center para empreender com propósito. Em processo de lançamento via e-commerce."
+  },
+  {
+    id:103, uf:"GO", name:"Lala Zein", tipo:"Moda Feminina", tipoTag:"moda",
+    address:"Rua 18, 465 · Setor Oeste · Goiânia · GO",
+    lat:-16.6570144, lng:-49.2784865, color:"#E85D7A", initials:"LZ",
+    instagram:"Lalazein", whatsapp:"62993446650",
+    tags:["Moda","Goiânia","GO"],
+    descCurta:"Marca autoral de moda feminina com produção própria e atendimento B2B e B2C.",
+    descLonga:"Co-fundada em 2013. Uma das pioneiras do segmento autoral feminino em Goiânia."
+  },
+  {
+    id:104, uf:"RJ", name:"Zizcar Auto Center", tipo:"Serviços Automotivos", tipoTag:"varejo",
+    address:"Rua Benjamin Constant, 145 · Duas Pedras · Nova Friburgo · RJ",
+    lat:-22.2617373, lng:-42.5321104, color:"#5A5A5A", initials:"ZC",
+    instagram:"@zizcar.friburgo", whatsapp:"22974037809",
+    tags:["Varejo","Nova Friburgo","RJ"],
+    descCurta:"Centro automotivo com acessórios, mecânica e serviços variados para automóveis.",
+    descLonga:""
+  },
+  {
+    id:105, uf:"SP", name:"Restaurante Na Machado", tipo:"Alimentação", tipoTag:"alimentação",
+    address:"Rua Machado de Assis, 126 · Vila Mariana · SP",
+    lat:-23.5819412, lng:-46.6364216, color:"#D4500A", initials:"NM",
+    instagram:"@restaurantenamachado", whatsapp:"11977332115",
+    tags:["Alimentação","Vila Mariana","SP"],
+    descCurta:"Buffet de almoço com culinária brasileira, japonesa e asiática, frescos e caseiros.",
+    descLonga:"Nasceu da lembrança dos almoços de família de Ano Novo. Um lugar acolhedor onde novas histórias são construídas."
   }
 ];
 
